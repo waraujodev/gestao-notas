@@ -38,8 +38,8 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **2.3** Criar função calculate_invoice_summary para cálculos
 - [x] **2.4** Inserir formas de pagamento pré-cadastradas
 - [x] **2.5** Configurar Supabase Storage (buckets: invoices, receipts) + políticas
-- [ ] **2.6** Implementar sistema de autenticação básico
-- [ ] **2.7** Criar middleware de proteção de rotas
+- [x] **2.6** Implementar sistema de autenticação básico
+- [x] **2.7** Criar middleware de proteção de rotas
 
 ### Fase 3: Componentes Base e Layout
 - [ ] **3.1** Criar layout principal com sidebar e header
@@ -213,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 13/08/2025  
-> **Progresso atual:** 13/76 etapas concluídas (17,1%)
+> **Progresso atual:** 15/76 etapas concluídas (19,7%)
