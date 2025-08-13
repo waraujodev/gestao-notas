@@ -33,11 +33,11 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **1.8** Instalar PDF.js (substituindo react-pdf) e dependências otimizadas
 
 ### Fase 2: Banco de Dados e Autenticação
-- [ ] **2.1** Criar tabelas no Supabase (suppliers, payment_methods, invoices, payments)
-- [ ] **2.2** Configurar Row Level Security (RLS) em todas as tabelas
-- [ ] **2.3** Criar view invoice_summary para cálculos
-- [ ] **2.4** Inserir formas de pagamento pré-cadastradas
-- [ ] **2.5** Configurar Supabase Storage (buckets: invoices, receipts) + políticas
+- [x] **2.1** Criar tabelas no Supabase (suppliers, payment_methods, invoices, payments)
+- [x] **2.2** Configurar Row Level Security (RLS) em todas as tabelas
+- [x] **2.3** Criar função calculate_invoice_summary para cálculos
+- [x] **2.4** Inserir formas de pagamento pré-cadastradas
+- [x] **2.5** Configurar Supabase Storage (buckets: invoices, receipts) + políticas
 - [ ] **2.6** Implementar sistema de autenticação básico
 - [ ] **2.7** Criar middleware de proteção de rotas
 
@@ -213,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 13/08/2025  
-> **Progresso atual:** 8/76 etapas concluídas (10,5%)
+> **Progresso atual:** 13/76 etapas concluídas (17,1%)
