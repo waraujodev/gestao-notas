@@ -28,7 +28,7 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **1.3** Configurar Supabase (projeto, auth, database)
 - [x] **1.4** Configurar variáveis de ambiente (.env.local e .env.example)
 - [x] **1.5** Estruturar pastas do projeto
-- [ ] **1.6** Configurar ESLint, Prettier e scripts npm
+- [x] **1.6** Configurar ESLint, Prettier e scripts npm
 - [ ] **1.7** Instalar dependências para validação CNPJ/CPF (@brazilian-utils)
 - [ ] **1.8** Instalar PDF.js (substituindo react-pdf) e dependências otimizadas
 
@@ -144,12 +144,15 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 
 ---
 
-## 🎯 Instruções para Commits
+## 🎯 Instruções OBRIGATÓRIAS para Commits
+
+**⚠️ IMPORTANTE: Sempre seguir este processo ao finalizar cada etapa:**
 
 Ao concluir cada etapa:
 
-1. **Marque o checkbox** da etapa como concluída (`[x]`)
-2. **Faça um commit** seguindo o padrão:
+1. **Marque o checkbox** da etapa como concluída (`[x]`) neste arquivo
+2. **Atualize o progresso** no final do documento
+3. **Faça um commit** seguindo o padrão:
    ```
    feat: implementa [descrição da etapa] ✅
    
@@ -189,11 +192,12 @@ Etapa 4.1 concluída conforme roadmap.
 
 1. **Ordem das Fases**: Seguir a ordem numerada para evitar dependências
 2. **Ambiente ÚNICO**: Supabase em produção - usar usuário de teste sempre
-3. **Testes**: Cada fase deve incluir testes básicos antes do commit
-4. **Review**: Revisar código antes de cada commit
-5. **Backup**: Fazer backup manual do banco antes de mudanças estruturais
-6. **RLS**: Row Level Security garante isolamento entre usuários
-7. **Performance**: Monitorar performance a cada fase implementada
+3. **Commits OBRIGATÓRIOS**: Sempre atualizar checkbox + progresso + fazer commit após cada etapa
+4. **Testes**: Cada fase deve incluir testes básicos antes do commit
+5. **Review**: Revisar código antes de cada commit
+6. **Backup**: Fazer backup manual do banco antes de mudanças estruturais
+7. **RLS**: Row Level Security garante isolamento entre usuários
+8. **Performance**: Monitorar performance a cada fase implementada
 
 ---
 
@@ -209,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 13/08/2025  
-> **Progresso atual:** 5/76 etapas concluídas (6,6%)
+> **Progresso atual:** 6/76 etapas concluídas (7,9%)
