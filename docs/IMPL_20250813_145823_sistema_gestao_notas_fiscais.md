@@ -23,7 +23,7 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 ## 📋 Roadmap de Implementação
 
 ### Fase 1: Setup e Configuração Inicial
-- [ ] **1.1** Configurar projeto Next.js 14 com TypeScript
+- [x] **1.1** Configurar projeto Next.js 14 com TypeScript
 - [ ] **1.2** Instalar e configurar Tailwind CSS + shadcn/ui
 - [ ] **1.3** Configurar Supabase (projeto, auth, database)
 - [ ] **1.4** Configurar variáveis de ambiente (.env.local e .env.example)
@@ -209,4 +209,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 13/08/2025  
-> **Progresso atual:** 0/76 etapas concluídas (0%)
+> **Progresso atual:** 1/76 etapas concluídas (1,3%)
