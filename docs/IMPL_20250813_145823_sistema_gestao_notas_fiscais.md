@@ -30,7 +30,7 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **1.5** Estruturar pastas do projeto
 - [x] **1.6** Configurar ESLint, Prettier e scripts npm
 - [x] **1.7** Instalar dependências para validação CNPJ/CPF (brazilian-values)
-- [ ] **1.8** Instalar PDF.js (substituindo react-pdf) e dependências otimizadas
+- [x] **1.8** Instalar PDF.js (substituindo react-pdf) e dependências otimizadas
 
 ### Fase 2: Banco de Dados e Autenticação
 - [ ] **2.1** Criar tabelas no Supabase (suppliers, payment_methods, invoices, payments)
@@ -213,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 13/08/2025  
-> **Progresso atual:** 7/76 etapas concluídas (9,2%)
+> **Progresso atual:** 8/76 etapas concluídas (10,5%)
