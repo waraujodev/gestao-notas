@@ -4,9 +4,9 @@ Sistema web completo para cadastro e gestão de notas fiscais, desenvolvido para
 
 ## 🚀 Tecnologias
 
-- **Frontend**: Next.js 14 + TypeScript + Tailwind CSS + shadcn/ui
+- **Frontend**: Next.js 15+ + TypeScript 5+ + Tailwind CSS 4+ + shadcn/ui
 - **Backend**: Supabase (PostgreSQL + Auth + Storage)
-- **Validação**: React Hook Form + Zod
+- **Validação**: React Hook Form 7+ + Zod 4+
 - **Visualização**: PDF.js
 - **Deploy**: Vercel + Supabase Cloud
 
@@ -175,7 +175,7 @@ payments (id, user_id, invoice_id, payment_method_id, amount_cents, payment_date
 
 ### Estrutura de Pastas
 ```
-├── app/              # App Router (Next.js 14)
+├── app/              # App Router (Next.js 15+)
 ├── components/       # Componentes reutilizáveis
 ├── lib/             # Utilitários e configurações
 ├── types/           # Definições TypeScript
@@ -206,6 +206,6 @@ Para dúvidas ou suporte:
 
 <div align="center">
 
-**🚀 Desenvolvido com Next.js + Supabase + TypeScript**
+**🚀 Desenvolvido com Next.js 15+ + Supabase + TypeScript**
 
 </div>

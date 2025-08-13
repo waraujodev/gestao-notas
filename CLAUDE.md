@@ -62,16 +62,18 @@ Sistema web completo para cadastro e gestão de notas fiscais, desenvolvido para
 ### Stack Tecnológica
 
 **Frontend:**
-- Next.js 14 com App Router
-- TypeScript
-- Tailwind CSS + shadcn/ui
-- React Hook Form + Zod
+- Next.js 15+ com App Router
+- TypeScript 5+
+- React 19+ + React DOM 19+
+- Tailwind CSS 4+ + shadcn/ui
+- React Hook Form 7+ + Zod 4+
 - PDF.js para visualização de PDFs
 - React Context + useState para gerenciamento de estado
 
 **Backend:**
 - Supabase como BaaS (PostgreSQL + Auth + Storage)
-- Next.js API routes
+- @supabase/supabase-js 2+ + @supabase/ssr 0.6+
+- Next.js 15+ API routes
 - Row Level Security (RLS)
 
 **Deploy:**
@@ -108,21 +110,31 @@ Sistema web completo para cadastro e gestão de notas fiscais, desenvolvido para
 
 ### Primeiro Setup
 
+**⚠️ REGRA CRÍTICA: VERIFICAÇÃO DE VERSÕES**
+
+**NUNCA, NUNCA, NUNCA** instalar pacotes usando `@latest` sem verificar compatibilidade!
+
+**SEMPRE**:
+1. Verificar versões atuais no package.json
+2. Consultar documentação de compatibilidade 
+3. Especificar versões exatas quando necessário
+4. Testar compatibilidade antes de prosseguir
+
 ```bash
-# 1. Clonar ou inicializar projeto
-npx create-next-app@latest gestao-notas --typescript --tailwind --app
+# 1. Clonar ou inicializar projeto (verifica versão Next.js antes)
+npx create-next-app@15 gestao-notas --typescript --tailwind --app
 
 # 2. Entrar na pasta
 cd gestao-notas
 
-# 3. Instalar dependências do Supabase
-npm install @supabase/supabase-js @supabase/auth-helpers-nextjs
+# 3. Instalar dependências do Supabase (versões compatíveis testadas)
+npm install @supabase/supabase-js@2 @supabase/ssr@0.6
 
-# 4. Instalar shadcn/ui
-npx shadcn-ui@latest init
+# 4. Instalar shadcn/ui (verificar compatibilidade com React 19+)
+npx shadcn@2 init
 
 # 5. Instalar PDF.js e outras dependências essenciais
-npm install pdfjs-dist react-hook-form zod @hookform/resolvers
+npm install pdfjs-dist react-hook-form@7 zod@4 @hookform/resolvers@5
 
 # 6. Criar arquivo .env.local (nunca commitar!)
 cp .env.example .env.local
@@ -184,8 +196,9 @@ NODE_ENV=development
 
 ### Validação CNPJ/CPF
 
-**Biblioteca recomendada:**
+**Biblioteca recomendada (verificar compatibilidade com React 19):**
 ```bash
+# Verificar se @brazilian-utils é compatível com React 19+
 npm install @brazilian-utils/cpf @brazilian-utils/cnpj
 ```
 

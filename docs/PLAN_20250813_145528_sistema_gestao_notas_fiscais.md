@@ -5,16 +5,18 @@ Desenvolva um sistema web completo para cadastro e gestão de notas fiscais util
 ## Stack Tecnológica
 
 **Frontend:**
-- Next.js 14 com App Router
-- TypeScript
-- Tailwind CSS + shadcn/ui para componentes UI
-- React Hook Form + Zod para formulários e validação
+- Next.js 15+ com App Router
+- TypeScript 5+
+- React 19+ + React DOM 19+
+- Tailwind CSS 4+ + shadcn/ui para componentes UI
+- React Hook Form 7+ + Zod 4+ para formulários e validação
 - PDF.js para visualização de PDFs (substituindo react-pdf)
 - React Context + useState para gerenciamento de estado (removido Zustand)
 
 **Backend:**
 - Supabase como BaaS (PostgreSQL + Auth + Storage)
-- Next.js API routes para validações e lógicas específicas
+- @supabase/supabase-js 2+ + @supabase/ssr 0.6+
+- Next.js 15+ API routes para validações e lógicas específicas
 - Row Level Security (RLS) configurado
 
 **Deploy:**
