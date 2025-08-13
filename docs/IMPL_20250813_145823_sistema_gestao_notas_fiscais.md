@@ -24,10 +24,10 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 
 ### Fase 1: Setup e Configuração Inicial
 - [x] **1.1** Configurar projeto Next.js 14 com TypeScript
-- [ ] **1.2** Instalar e configurar Tailwind CSS + shadcn/ui
-- [ ] **1.3** Configurar Supabase (projeto, auth, database)
-- [ ] **1.4** Configurar variáveis de ambiente (.env.local e .env.example)
-- [ ] **1.5** Estruturar pastas do projeto
+- [x] **1.2** Instalar e configurar Tailwind CSS + shadcn/ui
+- [x] **1.3** Configurar Supabase (projeto, auth, database)
+- [x] **1.4** Configurar variáveis de ambiente (.env.local e .env.example)
+- [x] **1.5** Estruturar pastas do projeto
 - [ ] **1.6** Configurar ESLint, Prettier e scripts npm
 - [ ] **1.7** Instalar dependências para validação CNPJ/CPF (@brazilian-utils)
 - [ ] **1.8** Instalar PDF.js (substituindo react-pdf) e dependências otimizadas
@@ -209,4 +209,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 13/08/2025  
-> **Progresso atual:** 1/76 etapas concluídas (1,3%)
+> **Progresso atual:** 5/76 etapas concluídas (6,6%)
