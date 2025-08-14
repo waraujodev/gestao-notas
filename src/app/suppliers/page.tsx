@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
+import { SuppliersTable } from '@/components/suppliers/SuppliersTable'
 
 export const metadata: Metadata = {
   title: 'Fornecedores - Gestão de Notas Fiscais',
@@ -29,11 +30,7 @@ export default async function SuppliersPage() {
           </p>
         </div>
 
-        <div className='rounded-lg border bg-card p-6'>
-          <p className='text-center text-muted-foreground'>
-            Lista de fornecedores será implementada na Fase 4
-          </p>
-        </div>
+        <SuppliersTable />
       </div>
     </DashboardLayout>
   )

@@ -50,13 +50,13 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **3.6** Criar loading states e skeletons
 
 ### Fase 4: Gestão de Fornecedores
-- [ ] **4.1** Criar página de listagem de fornecedores
-- [ ] **4.2** Implementar formulário de cadastro/edição
-- [ ] **4.3** Adicionar validação CNPJ/CPF com Zod
-- [ ] **4.4** Implementar busca e filtros
-- [ ] **4.5** Adicionar funcionalidade de exclusão lógica
-- [ ] **4.6** Implementar validação de duplicatas
-- [ ] **4.7** Criar API routes para fornecedores
+- [x] **4.1** Criar página de listagem de fornecedores
+- [x] **4.2** Implementar formulário de cadastro/edição
+- [x] **4.3** Adicionar validação CNPJ/CPF com Zod
+- [x] **4.4** Implementar busca e filtros
+- [x] **4.5** Adicionar funcionalidade de exclusão lógica
+- [x] **4.6** Implementar validação de duplicatas
+- [x] **4.7** Criar API routes para fornecedores
 
 ### Fase 5: Gestão de Formas de Pagamento
 - [ ] **5.1** Criar página de listagem de formas de pagamento
@@ -213,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 14/08/2025  
-> **Progresso atual:** 21/76 etapas concluídas (27,6%)
+> **Progresso atual:** 28/76 etapas concluídas (36,8%)
