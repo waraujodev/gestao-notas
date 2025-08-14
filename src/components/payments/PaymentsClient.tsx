@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { PaymentsTable } from './PaymentsTable'
 import { PaymentsFilters } from './PaymentsFilters'
-// import { PaymentDialog } from './PaymentDialog' // TODO: Implementar criação direta de pagamento
 import { usePayments } from '@/hooks/usePayments'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/hooks/useToast'
