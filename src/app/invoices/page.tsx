@@ -7,6 +7,7 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { InvoicesTable } from '@/components/invoices/InvoicesTable'
 import { InvoicesFilters } from '@/components/invoices/InvoicesFilters'
 import { InvoiceDialog } from '@/components/invoices/InvoiceDialog'
+import { PaymentDialog } from '@/components/payments/PaymentDialog'
 import { useInvoices } from '@/hooks/useInvoices'
 import type { InvoiceFilters, InvoiceSummary } from '@/types/invoice'
 
@@ -17,12 +18,17 @@ export default function InvoicesPage() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingInvoice, setEditingInvoice] = useState<InvoiceSummary | null>(null)
   const [dialogMode, setDialogMode] = useState<'create' | 'edit'>('create')
+  
+  // Payment dialog state
+  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false)
+  const [selectedInvoiceForPayment, setSelectedInvoiceForPayment] = useState<InvoiceSummary | null>(null)
 
   const { 
     invoices, 
     loading, 
     pagination,
-    deleteInvoice
+    deleteInvoice,
+    refetch
   } = useInvoices({
     page,
     per_page: perPage,
@@ -51,8 +57,8 @@ export default function InvoicesPage() {
   }
 
   const handleAddPayment = (invoice: InvoiceSummary) => {
-    // TODO: Implement add payment functionality in next phase
-    console.log('Add payment to invoice:', invoice)
+    setSelectedInvoiceForPayment(invoice)
+    setPaymentDialogOpen(true)
   }
 
   const handleDelete = async (id: string) => {
@@ -73,6 +79,16 @@ export default function InvoicesPage() {
   const handleDialogClose = () => {
     setDialogOpen(false)
     setEditingInvoice(null)
+  }
+
+  const handlePaymentDialogClose = () => {
+    setPaymentDialogOpen(false)
+    setSelectedInvoiceForPayment(null)
+  }
+
+  const handlePaymentSuccess = () => {
+    // Atualizar lista de notas para refletir mudanças nos valores pagos
+    refetch()
   }
 
   return (
@@ -143,13 +159,24 @@ export default function InvoicesPage() {
           </div>
         )}
 
-        {/* Dialog for Create/Edit */}
+        {/* Dialog for Create/Edit Invoice */}
         <InvoiceDialog
           open={dialogOpen}
           onOpenChange={handleDialogClose}
           invoice={editingInvoice}
           mode={dialogMode}
         />
+
+        {/* Dialog for Add Payment */}
+        {selectedInvoiceForPayment && (
+          <PaymentDialog
+            open={paymentDialogOpen}
+            onOpenChange={handlePaymentDialogClose}
+            invoice={selectedInvoiceForPayment}
+            mode="create"
+            onSuccess={handlePaymentSuccess}
+          />
+        )}
       </div>
     </DashboardLayout>
   )

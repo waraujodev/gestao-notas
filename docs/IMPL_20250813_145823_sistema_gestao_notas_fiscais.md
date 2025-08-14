@@ -76,16 +76,16 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 ### Fase 7: Gestão de Notas Fiscais (Core)
 - [x] **7.1** Criar página de listagem de notas fiscais
 - [x] **7.2** Implementar formulário de cadastro de nota fiscal
-- [ ] **7.3** Adicionar seletor de fornecedor com busca
-- [ ] **7.4** Implementar upload de PDF da nota
-- [ ] **7.5** Adicionar validações monetárias e de data
-- [ ] **7.6** Criar sistema de cálculo de status automático
-- [ ] **7.7** Implementar filtros avançados (fornecedor, status, período)
-- [ ] **7.8** Adicionar busca por número/série
-- [ ] **7.9** Implementar paginação eficiente
+- [x] **7.3** Adicionar seletor de fornecedor com busca
+- [x] **7.4** Implementar upload de PDF da nota
+- [x] **7.5** Adicionar validações monetárias e de data
+- [x] **7.6** Criar sistema de cálculo de status automático
+- [x] **7.7** Implementar filtros avançados (fornecedor, status, período)
+- [x] **7.8** Adicionar busca por número/série
+- [x] **7.9** Implementar paginação eficiente
 
 ### Fase 8: Sistema de Pagamentos
-- [ ] **8.1** Criar modal de adicionar pagamento
+- [x] **8.1** Criar modal de adicionar pagamento
 - [ ] **8.2** Implementar validação de valor restante
 - [ ] **8.3** Adicionar upload de comprovante
 - [ ] **8.4** Criar listagem de pagamentos por nota
@@ -213,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 14/08/2025  
-> **Progresso atual:** 41/76 etapas concluídas (53,9%)
+> **Progresso atual:** 42/76 etapas concluídas (55,3%)
