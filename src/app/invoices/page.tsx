@@ -7,6 +7,7 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { InvoicesTable } from '@/components/invoices/InvoicesTable'
 import { InvoicesFilters } from '@/components/invoices/InvoicesFilters'
 import { InvoiceDialog } from '@/components/invoices/InvoiceDialog'
+import { InvoicePayments } from '@/components/invoices/InvoicePayments'
 import { PaymentDialog } from '@/components/payments/PaymentDialog'
 import { useInvoices } from '@/hooks/useInvoices'
 import type { InvoiceFilters, InvoiceSummary } from '@/types/invoice'
@@ -22,6 +23,10 @@ export default function InvoicesPage() {
   // Payment dialog state
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false)
   const [selectedInvoiceForPayment, setSelectedInvoiceForPayment] = useState<InvoiceSummary | null>(null)
+  
+  // Payments view state
+  const [viewingPayments, setViewingPayments] = useState(false)
+  const [selectedInvoiceForPayments, setSelectedInvoiceForPayments] = useState<InvoiceSummary | null>(null)
 
   const { 
     invoices, 
@@ -61,6 +66,11 @@ export default function InvoicesPage() {
     setPaymentDialogOpen(true)
   }
 
+  const handleViewPayments = (invoice: InvoiceSummary) => {
+    setSelectedInvoiceForPayments(invoice)
+    setViewingPayments(true)
+  }
+
   const handleDelete = async (id: string) => {
     try {
       await deleteInvoice(id)
@@ -89,6 +99,24 @@ export default function InvoicesPage() {
   const handlePaymentSuccess = () => {
     // Atualizar lista de notas para refletir mudanças nos valores pagos
     refetch()
+  }
+
+  const handleClosePaymentsView = () => {
+    setViewingPayments(false)
+    setSelectedInvoiceForPayments(null)
+    refetch() // Atualizar lista após alterações
+  }
+
+  // Se estiver visualizando pagamentos, mostrar apenas essa tela
+  if (viewingPayments && selectedInvoiceForPayments) {
+    return (
+      <DashboardLayout>
+        <InvoicePayments 
+          invoice={selectedInvoiceForPayments} 
+          onClose={handleClosePaymentsView}
+        />
+      </DashboardLayout>
+    )
   }
 
   return (
@@ -124,6 +152,7 @@ export default function InvoicesPage() {
           onDelete={handleDelete}
           onView={handleView}
           onAddPayment={handleAddPayment}
+          onViewPayments={handleViewPayments}
         />
 
         {/* Pagination */}

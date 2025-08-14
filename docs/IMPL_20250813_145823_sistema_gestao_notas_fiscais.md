@@ -86,12 +86,12 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 
 ### Fase 8: Sistema de Pagamentos
 - [x] **8.1** Criar modal de adicionar pagamento
-- [ ] **8.2** Implementar validação de valor restante
-- [ ] **8.3** Adicionar upload de comprovante
-- [ ] **8.4** Criar listagem de pagamentos por nota
-- [ ] **8.5** Implementar cálculo automático de valores
-- [ ] **8.6** Adicionar sistema de observações
-- [ ] **8.7** Criar histórico de pagamentos
+- [x] **8.2** Implementar validação de valor restante
+- [x] **8.3** Adicionar upload de comprovante
+- [x] **8.4** Criar listagem de pagamentos por nota
+- [x] **8.5** Implementar cálculo automático de valores
+- [x] **8.6** Adicionar sistema de observações
+- [x] **8.7** Criar histórico de pagamentos
 
 ### Fase 9: Dashboard e Métricas
 - [ ] **9.1** Criar cards de métricas principais
@@ -213,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 14/08/2025  
-> **Progresso atual:** 42/76 etapas concluídas (55,3%)
+> **Progresso atual:** 48/76 etapas concluídas (63,2%)

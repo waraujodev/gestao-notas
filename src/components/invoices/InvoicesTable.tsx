@@ -40,6 +40,7 @@ interface InvoicesTableProps {
   onDelete?: (id: string) => void
   onView?: (invoice: InvoiceSummary) => void
   onAddPayment?: (invoice: InvoiceSummary) => void
+  onViewPayments?: (invoice: InvoiceSummary) => void
 }
 
 function getStatusVariant(status: PaymentStatus): 'default' | 'secondary' | 'destructive' | 'outline' {
@@ -78,7 +79,8 @@ export function InvoicesTable({
   onEdit,
   onDelete,
   onView,
-  onAddPayment
+  onAddPayment,
+  onViewPayments
 }: InvoicesTableProps) {
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
@@ -255,6 +257,13 @@ export function InvoicesTable({
                           </DropdownMenuItem>
                         )}
                         
+                        {onViewPayments && (
+                          <DropdownMenuItem onClick={() => onViewPayments(invoice)}>
+                            <Receipt className="mr-2 h-4 w-4" />
+                            Ver Pagamentos
+                          </DropdownMenuItem>
+                        )}
+
                         {onAddPayment && invoice.remaining_amount_cents > 0 && (
                           <DropdownMenuItem onClick={() => onAddPayment(invoice)}>
                             <Plus className="mr-2 h-4 w-4" />
