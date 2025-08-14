@@ -1,7 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import { Plus, Receipt } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { PaymentsTable } from './PaymentsTable'
 import { PaymentsFilters } from './PaymentsFilters'
 import { usePayments } from '@/hooks/usePayments'
@@ -33,7 +41,7 @@ export function PaymentsClient() {
 
   const handleFiltersChange = (newFilters: PaymentFilters) => {
     setFilters(newFilters)
-    setPage(1) // Reset to first page when filters change
+    setPage(1)
   }
 
   const handleClearFilters = () => {
@@ -91,7 +99,6 @@ export function PaymentsClient() {
   }
 
   const handleNewPayment = () => {
-    // TODO: Implementar modal de seleção de nota fiscal antes de criar pagamento
     toast.error('Funcionalidade em desenvolvimento', {
       description: 'Para adicionar um pagamento, vá até a página de notas fiscais e selecione uma nota.'
     })
@@ -108,119 +115,77 @@ export function PaymentsClient() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">Pagamentos</h2>
-          <p className="text-muted-foreground">
-            Visualize e gerencie todos os pagamentos registrados
-          </p>
-        </div>
-        <Button onClick={handleNewPayment}>
-          Novo Pagamento
-        </Button>
-      </div>
-
-      {/* Filters */}
-      <PaymentsFilters
-        filters={filters}
-        onFiltersChange={handleFiltersChange}
-        onClear={handleClearFilters}
-        loading={loading}
-      />
-
-      {/* Summary Cards */}
-      {!loading && payments.length > 0 && (
-        <div className="grid gap-4 md:grid-cols-3">
-          <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
-            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <h3 className="tracking-tight text-sm font-medium">
-                Total de Pagamentos
-              </h3>
-            </div>
-            <div className="text-2xl font-bold">{pagination.count}</div>
-            <p className="text-xs text-muted-foreground">
-              Pagamentos encontrados
-            </p>
-          </div>
-
-          <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
-            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <h3 className="tracking-tight text-sm font-medium">
-                Valor Total
-              </h3>
-            </div>
-            <div className="text-2xl font-bold text-green-600">
-              R$ {(payments.reduce((sum, p) => sum + p.amount_cents, 0) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Soma dos pagamentos exibidos
-            </p>
-          </div>
-
-          <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
-            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <h3 className="tracking-tight text-sm font-medium">
-                Valor Médio
-              </h3>
-            </div>
-            <div className="text-2xl font-bold text-blue-600">
-              R$ {payments.length > 0 ? (payments.reduce((sum, p) => sum + p.amount_cents, 0) / payments.length / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : '0,00'}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Valor médio por pagamento
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Table */}
-      <PaymentsTable
-        payments={payments}
-        loading={loading}
-        showInvoiceInfo={true}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onView={handleView}
-        onDownloadReceipt={handleDownloadReceipt}
-      />
-
-      {/* Pagination */}
-      {pagination.total_pages > 1 && (
+    <Card>
+      <CardHeader>
         <div className="flex items-center justify-between">
-          <div className="text-sm text-muted-foreground">
-            Mostrando {((page - 1) * perPage) + 1} a {Math.min(page * perPage, pagination.count)} de {pagination.count} resultados
+          <div>
+            <CardTitle>Pagamentos</CardTitle>
+            <CardDescription>
+              Histórico de pagamentos realizados para notas fiscais
+            </CardDescription>
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setPage(p => Math.max(1, p - 1))}
-              disabled={page === 1 || loading}
-            >
-              Anterior
-            </Button>
-            <div className="flex items-center gap-1 text-sm">
-              <span>Página</span>
-              <span className="font-medium">{page}</span>
-              <span>de</span>
-              <span className="font-medium">{pagination.total_pages}</span>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setPage(p => Math.min(pagination.total_pages, p + 1))}
-              disabled={page === pagination.total_pages || loading}
-            >
-              Próxima
-            </Button>
-          </div>
+          <Button onClick={handleNewPayment}>
+            <Plus className="mr-2 h-4 w-4" />
+            Novo Pagamento
+          </Button>
         </div>
-      )}
+      </CardHeader>
+      
+      <CardContent>
+        <div className="space-y-4">
+          {/* Filtros */}
+          <PaymentsFilters
+            filters={filters}
+            onFiltersChange={handleFiltersChange}
+            onClear={handleClearFilters}
+            loading={loading}
+          />
 
-      {/* TODO: Dialog for Create/Edit Payment */}
-      {/* Implementar quando houver seleção de nota fiscal */}
-    </div>
+          {/* Tabela */}
+          <PaymentsTable
+            payments={payments}
+            loading={loading}
+            showInvoiceInfo={true}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onView={handleView}
+            onDownloadReceipt={handleDownloadReceipt}
+          />
+
+          {/* Paginação */}
+          {pagination.total_pages > 1 && (
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-muted-foreground">
+                Mostrando {((page - 1) * perPage) + 1} a {Math.min(page * perPage, pagination.count)} de {pagination.count} resultados
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page === 1 || loading}
+                >
+                  Anterior
+                </Button>
+                <div className="flex items-center gap-1 text-sm">
+                  <span>Página</span>
+                  <span className="font-medium">{page}</span>
+                  <span>de</span>
+                  <span className="font-medium">{pagination.total_pages}</span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPage(p => Math.min(pagination.total_pages, p + 1))}
+                  disabled={page === pagination.total_pages || loading}
+                >
+                  Próxima
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   )
 }

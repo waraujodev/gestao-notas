@@ -89,17 +89,18 @@ export function PaymentsFilters({
         )}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {/* Pesquisa por observações */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Buscar</label>
-          <Input
-            placeholder="Observações..."
-            value={localFilters.search || ''}
-            onChange={(e) => handleFilterChange('search', e.target.value)}
-            disabled={loading}
-          />
-        </div>
+      {/* Campo de busca em linha separada para mais espaço */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Buscar</label>
+        <Input
+          placeholder="Nota fiscal, fornecedor, método ou observações..."
+          value={localFilters.search || ''}
+          onChange={(e) => handleFilterChange('search', e.target.value)}
+          disabled={loading}
+        />
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 
         {/* Fornecedor */}
         <div className="space-y-2">

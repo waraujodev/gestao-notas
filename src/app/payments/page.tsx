@@ -22,7 +22,16 @@ export default async function PaymentsPage() {
 
   return (
     <DashboardLayout>
-      <PaymentsClient />
+      <div className='space-y-6'>
+        <div>
+          <h2 className='text-2xl font-bold tracking-tight'>Pagamentos</h2>
+          <p className='text-muted-foreground'>
+            Gerencie pagamentos de notas fiscais e acompanhe o fluxo de caixa
+          </p>
+        </div>
+
+        <PaymentsClient />
+      </div>
     </DashboardLayout>
   )
 }
