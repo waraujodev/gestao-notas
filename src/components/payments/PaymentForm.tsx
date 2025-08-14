@@ -62,7 +62,7 @@ export function PaymentForm({
     limit: 50
   })
 
-  const form = useForm<PaymentFormData>({
+  const form = useForm({
     resolver: zodResolver(paymentFormSchema),
     defaultValues: {
       ...getPaymentDefaultValues(),
@@ -77,7 +77,7 @@ export function PaymentForm({
 
   // Validar valor do pagamento em tempo real
   useEffect(() => {
-    if (watchAmount && watchAmount.trim()) {
+    if (watchAmount && typeof watchAmount === 'string' && watchAmount.trim()) {
       try {
         const numericValue = parseFloat(watchAmount.replace(/[R$\s.]/g, '').replace(',', '.'))
         const amountCents = Math.round(numericValue * 100)
@@ -96,6 +96,20 @@ export function PaymentForm({
         }
       } catch {
         // Ignore parsing errors, let Zod handle them
+      }
+    } else if (watchAmount && typeof watchAmount === 'number') {
+      // amount já foi transformado pelo Zod
+      const validation = validatePaymentAmount(
+        watchAmount,
+        invoice.remaining_amount_cents,
+        isEditing
+      )
+
+      if (!validation.valid) {
+        setCustomAmountError(validation.error || 'Valor inválido')
+      } else {
+        setCustomAmountError(null)
+        clearErrors('amount')
       }
     } else {
       setCustomAmountError(null)
@@ -123,18 +137,6 @@ export function PaymentForm({
       await onSubmit(formData)
     } catch (error) {
       console.error('Form submit error:', error)
-    }
-  }
-
-  const handleFileSelect = (files: File[]) => {
-    if (files.length > 0) {
-      const file = files[0]
-      setUploadedFile(file)
-      form.setValue('receipt_file', file)
-      
-      // Create preview URL
-      const url = URL.createObjectURL(file)
-      setPreviewUrl(url)
     }
   }
 
@@ -337,10 +339,23 @@ export function PaymentForm({
                 <div className="space-y-4">
                   {!uploadedFile ? (
                     <FileUpload
-                      onFilesSelect={handleFileSelect}
-                      accept={['.pdf', '.jpg', '.jpeg', '.png']}
-                      maxSize={10 * 1024 * 1024} // 10MB
-                      maxFiles={1}
+                      options={{
+                        bucket: 'receipts',
+                        maxSize: 10 * 1024 * 1024,
+                        allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'],
+                        folder: 'receipts'
+                      }}
+                      accept={{
+                        'application/pdf': ['.pdf'],
+                        'image/jpeg': ['.jpg', '.jpeg'],
+                        'image/png': ['.png']
+                      }}
+                      onUploadComplete={(path, file) => {
+                        setUploadedFile(file)
+                        form.setValue('receipt_file', file)
+                        setPreviewUrl(file.type.startsWith('image/') ? URL.createObjectURL(file) : null)
+                      }}
+                      onUploadError={(error) => console.error('Upload error:', error)}
                       disabled={isFormLoading}
                       className={errors.receipt_file ? 'border-red-500' : ''}
                     />

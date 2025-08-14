@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/form'
 import { useSuppliers } from '@/hooks/useSuppliers'
 import { useToast } from '@/hooks/useToast'
-import { cnpj, cpf } from 'brazilian-values'
+import { isCNPJ, isCPF } from 'brazilian-values'
 
 // Schema de validação
 const supplierSchema = z.object({
@@ -38,7 +38,7 @@ const supplierSchema = z.object({
     .refine((doc) => {
       if (!doc || doc.trim() === '') return true
       const cleanDoc = doc.replace(/\D/g, '')
-      return cnpj.isValid(cleanDoc) || cpf.isValid(cleanDoc)
+      return isCNPJ(cleanDoc) || isCPF(cleanDoc)
     }, 'Documento deve ser um CNPJ ou CPF válido'),
   email: z
     .string()
@@ -72,7 +72,7 @@ export function SupplierForm({ supplierId, onClose }: SupplierFormProps) {
   const { createSupplier, updateSupplier, getSupplier } = useSuppliers()
   const toast = useToast()
 
-  const form = useForm<SupplierFormData>({
+  const form = useForm({
     resolver: zodResolver(supplierSchema),
     defaultValues: {
       name: '',

@@ -57,7 +57,7 @@ export function PaymentMethodForm({ paymentMethodId, onClose }: PaymentMethodFor
   const { createPaymentMethod, updatePaymentMethod, getPaymentMethod } = usePaymentMethods()
   const toast = useToast()
 
-  const form = useForm<PaymentMethodFormData>({
+  const form = useForm({
     resolver: zodResolver(paymentMethodSchema),
     defaultValues: {
       name: '',

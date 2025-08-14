@@ -78,14 +78,14 @@ export async function getPdfInfo(
     
     return {
       numPages: pdf.numPages,
-      title: metadata.info?.Title,
-      author: metadata.info?.Author,
-      creator: metadata.info?.Creator,
-      producer: metadata.info?.Producer,
-      creationDate: metadata.info?.CreationDate,
-      modificationDate: metadata.info?.ModDate,
-      keywords: metadata.info?.Keywords,
-      subject: metadata.info?.Subject,
+      title: (metadata.info as any)?.Title,
+      author: (metadata.info as any)?.Author,
+      creator: (metadata.info as any)?.Creator,
+      producer: (metadata.info as any)?.Producer,
+      creationDate: (metadata.info as any)?.CreationDate,
+      modificationDate: (metadata.info as any)?.ModDate,
+      keywords: (metadata.info as any)?.Keywords,
+      subject: (metadata.info as any)?.Subject,
     }
   } catch (error) {
     console.error('Erro ao obter informações do PDF:', error)
@@ -128,12 +128,13 @@ export async function renderPdfPage(
     canvas.style.width = Math.floor(viewport.width) + 'px'
     canvas.style.height = Math.floor(viewport.height) + 'px'
     
-    const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null
+    const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : undefined
     
     const renderContext = {
       canvasContext: context,
       transform,
       viewport,
+      canvas,
     }
     
     await page.render(renderContext).promise

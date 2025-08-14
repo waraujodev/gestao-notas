@@ -2,6 +2,7 @@
 export { cn } from './cn'
 export { formatCurrency, centsToReal, realToCents } from './currency'
 export { formatDocument, validateCPF, validateCNPJ } from './document'
+export { formatDate, formatDateTime, formatRelativeDate, getDateInputValue } from './date'
 
 // File utilities
 export function formatFileSize(bytes: number): string {
@@ -12,8 +13,13 @@ export function formatFileSize(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 
-export function getFileIcon(fileType: string): string {
-  if (fileType.includes('pdf')) return '📄'
-  if (fileType.includes('image')) return '🖼️'
+export function getFileIcon(fileName: string): string {
+  const extension = fileName.toLowerCase().split('.').pop() || ''
+  
+  if (extension === 'pdf') return '📄'
+  if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(extension)) return '🖼️'
+  if (['doc', 'docx'].includes(extension)) return '📝'
+  if (['xls', 'xlsx'].includes(extension)) return '📊'
+  if (['zip', 'rar', '7z'].includes(extension)) return '🗜️'
   return '📁'
 }

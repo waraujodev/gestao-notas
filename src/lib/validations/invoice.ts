@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { realToCents } from '@/lib/utils/currency'
 import type { InvoiceFormData, InvoiceProcessedData } from '@/types/invoice'
 
-// Schema para validação de valores monetários (em reais, convertido para centavos)
+// Schema para validação de valores monetários (string, não transformado)
 const moneySchema = z
   .string()
   .min(1, 'Valor obrigatório')
@@ -14,10 +14,6 @@ const moneySchema = z
     const numValue = parseFloat(val.replace(/[R$\s.]/g, '').replace(',', '.'))
     return numValue <= 999999999.99 // ~10 bilhões
   }, 'Valor muito alto')
-  .transform((val) => {
-    const numValue = parseFloat(val.replace(/[R$\s.]/g, '').replace(',', '.'))
-    return realToCents(numValue)
-  })
 
 // Schema para data
 const dateSchema = z
@@ -72,7 +68,7 @@ export const invoiceFormSchema = z.object({
 
   due_date: dateSchema,
 
-  total_amount: z.string().pipe(moneySchema),
+  total_amount: moneySchema,
 
   pdf_file: pdfFileSchema,
 
@@ -112,7 +108,7 @@ export const invoiceEditSchema = z.object({
 
   due_date: dateSchema.optional(),
 
-  total_amount: z.string().pipe(moneySchema).optional(),
+  total_amount: moneySchema.optional(),
 
   pdf_file: pdfFileSchema.optional(),
 
@@ -160,7 +156,7 @@ export function prepareInvoiceData(data: InvoiceFormData): FormData {
   const formData = new FormData()
   
   // Converter string para centavos
-  const numericValue = parseFloat(data.total_amount.toString().replace(/[R$\s.]/g, '').replace(',', '.'))
+  const numericValue = parseFloat(data.total_amount.replace(/[R$\s.]/g, '').replace(',', '.'))
   const totalAmountCents = realToCents(numericValue)
   
   formData.append('supplier_id', data.supplier_id)
@@ -186,7 +182,7 @@ export function prepareInvoiceEditData(data: InvoiceEditData): FormData {
   if (data.number) formData.append('number', data.number)
   if (data.due_date) formData.append('due_date', data.due_date)
   if (data.total_amount !== undefined) {
-    const numericValue = parseFloat(data.total_amount.toString().replace(/[R$\s.]/g, '').replace(',', '.'))
+    const numericValue = parseFloat(data.total_amount.replace(/[R$\s.]/g, '').replace(',', '.'))
     const amountCents = realToCents(numericValue)
     formData.append('total_amount_cents', amountCents.toString())
   }

@@ -34,7 +34,7 @@ export interface InvoiceFormData {
   series: string
   number: string
   due_date: string
-  total_amount: string // String no formulário, convertido para centavos
+  total_amount: string // String no formulário, convertido para centavos pelo Zod
   pdf_file: File
   notes?: string
 }

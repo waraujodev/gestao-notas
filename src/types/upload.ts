@@ -30,11 +30,11 @@ export interface FileValidationResult {
 export const UPLOAD_CONFIG = {
   maxSize: 10 * 1024 * 1024, // 10MB
   allowedTypes: {
-    invoices: ['application/pdf'],
-    receipts: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'],
+    invoices: ['application/pdf'] as string[],
+    receipts: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'] as string[],
   },
   buckets: {
-    invoices: 'invoices',
-    receipts: 'receipts',
+    invoices: 'invoices' as const,
+    receipts: 'receipts' as const,
   },
-} as const
+}

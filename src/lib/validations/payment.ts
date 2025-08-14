@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { realToCents } from '@/lib/utils/currency'
 
-// Schema para validação de valores monetários (em reais, convertido para centavos)
+// Schema para validação de valores monetários (string, não transformado)
 const moneySchema = z
   .string()
   .min(1, 'Valor obrigatório')
@@ -13,10 +13,6 @@ const moneySchema = z
     const numValue = parseFloat(val.replace(/[R$\s.]/g, '').replace(',', '.'))
     return numValue <= 999999999.99 // ~10 bilhões
   }, 'Valor muito alto')
-  .transform((val) => {
-    const numValue = parseFloat(val.replace(/[R$\s.]/g, '').replace(',', '.'))
-    return realToCents(numValue)
-  })
 
 // Schema para data de pagamento
 const paymentDateSchema = z
@@ -58,7 +54,7 @@ export const paymentFormSchema = z.object({
     .min(1, 'Forma de pagamento obrigatória')
     .uuid('Forma de pagamento inválida'),
 
-  amount: z.string().pipe(moneySchema),
+  amount: moneySchema,
 
   payment_date: paymentDateSchema,
 
@@ -81,7 +77,7 @@ export const paymentEditSchema = z.object({
     .uuid('Forma de pagamento inválida')
     .optional(),
 
-  amount: z.string().pipe(moneySchema).optional(),
+  amount: moneySchema.optional(),
 
   payment_date: paymentDateSchema.optional(),
 
@@ -115,12 +111,12 @@ export const paymentApiSchema = paymentFormSchema.transform((data) => ({
 export type PaymentApiData = z.infer<typeof paymentApiSchema>
 
 // Função para valores padrão do formulário
-export function getPaymentDefaultValues(): Partial<PaymentFormData> {
+export function getPaymentDefaultValues() {
   const today = new Date().toISOString().split('T')[0]
   
   return {
     payment_method_id: '',
-    amount: '', // Será preenchido pelo usuário
+    amount: '', // String no formulário, será transformada pelo Zod
     payment_date: today, // Data de hoje por padrão
     notes: ''
   }
@@ -131,7 +127,7 @@ export function preparePaymentData(data: PaymentFormData, invoice_id: string): F
   const formData = new FormData()
   
   // Converter string para centavos
-  const numericValue = parseFloat(data.amount.toString().replace(/[R$\s.]/g, '').replace(',', '.'))
+  const numericValue = parseFloat(data.amount.replace(/[R$\s.]/g, '').replace(',', '.'))
   const amountCents = realToCents(numericValue)
   
   formData.append('invoice_id', invoice_id)
@@ -157,7 +153,7 @@ export function preparePaymentEditData(data: PaymentEditData): FormData {
   if (data.notes !== undefined) formData.append('notes', data.notes || '')
   
   if (data.amount !== undefined) {
-    const numericValue = parseFloat(data.amount.toString().replace(/[R$\s.]/g, '').replace(',', '.'))
+    const numericValue = parseFloat(data.amount.replace(/[R$\s.]/g, '').replace(',', '.'))
     const amountCents = realToCents(numericValue)
     formData.append('amount_cents', amountCents.toString())
   }

@@ -75,11 +75,11 @@ export function useInvoices(options: UseInvoicesOptions = {}) {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erro desconhecido'
       setError(message)
-      toast.error(message)
+      console.error('Invoices fetch error:', message)
     } finally {
       setLoading(false)
     }
-  }, [page, per_page, filters, toast])
+  }, [page, per_page, filters])
 
   const createInvoice = async (data: CreateInvoiceData) => {
     setLoading(true)
@@ -199,6 +199,13 @@ export function useInvoices(options: UseInvoicesOptions = {}) {
       fetchInvoices()
     }
   }, [fetchInvoices, auto_fetch])
+
+  // Mostrar toast de erro quando houver erro
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error, toast])
 
   return {
     invoices,

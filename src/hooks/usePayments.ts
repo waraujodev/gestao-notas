@@ -75,11 +75,11 @@ export function usePayments(options: UsePaymentsOptions = {}) {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erro desconhecido'
       setError(message)
-      toast.error(message)
+      console.error('Payments fetch error:', message)
     } finally {
       setLoading(false)
     }
-  }, [page, per_page, filters, toast])
+  }, [page, per_page, filters])
 
   const createPayment = async (data: CreatePaymentData) => {
     setLoading(true)
@@ -200,6 +200,13 @@ export function usePayments(options: UsePaymentsOptions = {}) {
     }
   }, [fetchPayments, auto_fetch])
 
+  // Mostrar toast de erro quando houver erro
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error, toast])
+
   return {
     payments,
     loading,
@@ -259,11 +266,11 @@ export function useInvoicePayments(invoiceId: string) {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erro desconhecido'
       setError(message)
-      toast.error(message)
+      console.error('Invoice payments fetch error:', message)
     } finally {
       setLoading(false)
     }
-  }, [invoiceId, toast])
+  }, [invoiceId])
 
   const createPayment = async (data: Omit<CreatePaymentData, 'invoice_id'>) => {
     setLoading(true)
@@ -303,6 +310,13 @@ export function useInvoicePayments(invoiceId: string) {
   useEffect(() => {
     fetchInvoicePayments()
   }, [fetchInvoicePayments])
+
+  // Mostrar toast de erro quando houver erro
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error, toast])
 
   return {
     payments,
