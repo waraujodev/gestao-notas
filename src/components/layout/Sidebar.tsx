@@ -11,6 +11,7 @@ import {
   Settings,
   BarChart3,
   LogOut,
+  Wallet,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
@@ -42,6 +43,11 @@ const navigation: NavItem[] = [
     title: 'Pagamentos',
     href: '/payments',
     icon: CreditCard,
+  },
+  {
+    title: 'Formas de Pagamento',
+    href: '/payment-methods',
+    icon: Wallet,
   },
   {
     title: 'Relatórios',

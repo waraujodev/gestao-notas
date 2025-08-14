@@ -59,11 +59,11 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **4.7** Criar API routes para fornecedores
 
 ### Fase 5: Gestão de Formas de Pagamento
-- [ ] **5.1** Criar página de listagem de formas de pagamento
-- [ ] **5.2** Implementar CRUD básico
-- [ ] **5.3** Adicionar validações de formulário
-- [ ] **5.4** Implementar status ativo/inativo
-- [ ] **5.5** Criar API routes para formas de pagamento
+- [x] **5.1** Criar página de listagem de formas de pagamento
+- [x] **5.2** Implementar CRUD básico
+- [x] **5.3** Adicionar validações de formulário
+- [x] **5.4** Implementar status ativo/inativo
+- [x] **5.5** Criar API routes para formas de pagamento
 
 ### Fase 6: Sistema de Upload de Arquivos
 - [ ] **6.1** Configurar Supabase Storage buckets
@@ -213,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 14/08/2025  
-> **Progresso atual:** 28/76 etapas concluídas (36,8%)
+> **Progresso atual:** 33/76 etapas concluídas (43,4%)

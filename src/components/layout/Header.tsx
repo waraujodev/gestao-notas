@@ -31,6 +31,7 @@ export function Header({ onMenuClick }: HeaderProps) {
       '/suppliers': 'Fornecedores',
       '/invoices': 'Notas Fiscais',
       '/payments': 'Pagamentos',
+      '/payment-methods': 'Formas de Pagamento',
       '/reports': 'Relatórios',
       '/settings': 'Configurações',
     }

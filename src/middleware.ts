@@ -21,9 +21,11 @@ export async function middleware(request: NextRequest) {
     '/suppliers',
     '/invoices',
     '/payments',
+    '/payment-methods',
     '/api/suppliers',
     '/api/invoices',
     '/api/payments',
+    '/api/payment-methods',
   ]
 
   // Primeiro, atualizar a sessão

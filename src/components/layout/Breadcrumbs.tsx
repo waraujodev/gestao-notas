@@ -27,6 +27,7 @@ export function Breadcrumbs() {
       suppliers: 'Fornecedores',
       invoices: 'Notas Fiscais',
       payments: 'Pagamentos',
+      'payment-methods': 'Formas de Pagamento',
       reports: 'Relatórios',
       settings: 'Configurações',
       new: 'Novo',
