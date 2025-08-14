@@ -66,12 +66,12 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **5.5** Criar API routes para formas de pagamento
 
 ### Fase 6: Sistema de Upload de Arquivos
-- [ ] **6.1** Configurar Supabase Storage buckets
-- [ ] **6.2** Implementar componente de upload drag-and-drop
-- [ ] **6.3** Adicionar validação de tipos e tamanhos de arquivo
-- [ ] **6.4** Implementar preview de documentos
-- [ ] **6.5** Configurar URLs assinadas para segurança
-- [ ] **6.6** Implementar upload progressivo
+- [x] **6.1** Configurar Supabase Storage buckets
+- [x] **6.2** Implementar componente de upload drag-and-drop
+- [x] **6.3** Adicionar validação de tipos e tamanhos de arquivo
+- [x] **6.4** Implementar preview de documentos
+- [x] **6.5** Configurar URLs assinadas para segurança
+- [x] **6.6** Implementar upload progressivo
 
 ### Fase 7: Gestão de Notas Fiscais (Core)
 - [ ] **7.1** Criar página de listagem de notas fiscais
@@ -213,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 14/08/2025  
-> **Progresso atual:** 33/76 etapas concluídas (43,4%)
+> **Progresso atual:** 39/76 etapas concluídas (51,3%)

@@ -12,6 +12,7 @@ import {
   BarChart3,
   LogOut,
   Wallet,
+  Upload,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
@@ -53,6 +54,11 @@ const navigation: NavItem[] = [
     title: 'Relatórios',
     href: '/reports',
     icon: BarChart3,
+  },
+  {
+    title: 'Upload Demo',
+    href: '/upload-demo',
+    icon: Upload,
   },
   {
     title: 'Configurações',

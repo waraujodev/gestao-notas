@@ -22,6 +22,7 @@ export async function middleware(request: NextRequest) {
     '/invoices',
     '/payments',
     '/payment-methods',
+    '/upload-demo',
     '/api/suppliers',
     '/api/invoices',
     '/api/payments',
