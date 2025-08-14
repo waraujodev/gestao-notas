@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/form'
 import { useSuppliers } from '@/hooks/useSuppliers'
 import { useToast } from '@/hooks/useToast'
-import { isValidCNPJ, isValidCPF } from 'brazilian-values'
+import { cnpj, cpf } from 'brazilian-values'
 
 // Schema de validação
 const supplierSchema = z.object({
@@ -38,7 +38,7 @@ const supplierSchema = z.object({
     .refine((doc) => {
       if (!doc || doc.trim() === '') return true
       const cleanDoc = doc.replace(/\D/g, '')
-      return isValidCNPJ(cleanDoc) || isValidCPF(cleanDoc)
+      return cnpj.isValid(cleanDoc) || cpf.isValid(cleanDoc)
     }, 'Documento deve ser um CNPJ ou CPF válido'),
   email: z
     .string()
