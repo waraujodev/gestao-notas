@@ -136,15 +136,15 @@ RETURNS TABLE (
   is_overdue boolean
 ) 
 LANGUAGE plpgsql
-SECURITY DEFINER  -- Executa com privilégios da função
+SECURITY DEFINER
 AS $$
 BEGIN
   RETURN QUERY
   SELECT 
     i.id as invoice_id,
     i.total_amount_cents,
-    COALESCE(p.total_paid_cents, 0) as paid_amount_cents,
-    (i.total_amount_cents - COALESCE(p.total_paid_cents, 0)) as remaining_amount_cents,
+    COALESCE(p.total_paid_cents, 0::bigint) as paid_amount_cents,
+    (i.total_amount_cents - COALESCE(p.total_paid_cents, 0::bigint)) as remaining_amount_cents,
     CASE 
       WHEN COALESCE(p.total_paid_cents, 0) = 0 AND i.due_date < CURRENT_DATE THEN 'Atrasado'
       WHEN COALESCE(p.total_paid_cents, 0) = 0 THEN 'Pendente'  
@@ -155,14 +155,14 @@ BEGIN
   FROM invoices i
   LEFT JOIN (
     SELECT 
-      invoice_id, 
-      SUM(amount_cents) as total_paid_cents
-    FROM payments 
-    WHERE user_id = p_user_id  -- Filtro de segurança
-    GROUP BY invoice_id
-  ) p ON i.id = p.invoice_id
+      pay.invoice_id as inv_id,
+      SUM(pay.amount_cents)::bigint as total_paid_cents
+    FROM payments pay
+    WHERE pay.user_id = p_user_id
+    GROUP BY pay.invoice_id
+  ) p ON i.id = p.inv_id
   WHERE i.id = p_invoice_id 
-    AND i.user_id = p_user_id;  -- Segurança RLS
+    AND i.user_id = p_user_id;
 END;
 $$;
 
