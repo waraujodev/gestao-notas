@@ -12,7 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { formatFileSize, formatDate, getFileIcon } from '@/lib/utils'
+import { formatFileSize, getFileIcon } from '@/lib/upload'
+import { formatDate } from '@/lib/utils'
 import { FilePreview } from './FilePreview'
 import { useUpload } from '@/hooks/useUpload'
 

@@ -4,7 +4,13 @@ import { useState, useEffect } from 'react'
 import { Supplier, SuppliersResponse, SupplierFilters, CreateSupplierData, UpdateSupplierData } from '@/types/supplier'
 import { useToast } from './useToast'
 
-export function useSuppliers(filters: SupplierFilters = {}) {
+interface UseSuppliersOptions extends SupplierFilters {
+  auto_fetch?: boolean
+  per_page?: number
+}
+
+export function useSuppliers(options: UseSuppliersOptions = {}) {
+  const { auto_fetch = true, per_page, ...filters } = options
   const [suppliers, setSuppliers] = useState<Supplier[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -30,6 +36,7 @@ export function useSuppliers(filters: SupplierFilters = {}) {
       }
       if (currentFilters.page) params.append('page', currentFilters.page.toString())
       if (currentFilters.limit) params.append('limit', currentFilters.limit.toString())
+      if (per_page) params.append('limit', per_page.toString())
 
       const response = await fetch(`/api/suppliers?${params}`)
       
@@ -157,8 +164,10 @@ export function useSuppliers(filters: SupplierFilters = {}) {
 
   // Carregar fornecedores quando filters mudam
   useEffect(() => {
-    fetchSuppliers(filters)
-  }, [JSON.stringify(filters)])
+    if (auto_fetch) {
+      fetchSuppliers(filters)
+    }
+  }, [JSON.stringify(filters), auto_fetch])
 
   return {
     suppliers,

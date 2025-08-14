@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
+import { PaymentsClient } from '@/components/payments/PaymentsClient'
 
 export const metadata: Metadata = {
   title: 'Pagamentos - Gestão de Notas Fiscais',
@@ -21,20 +22,7 @@ export default async function PaymentsPage() {
 
   return (
     <DashboardLayout>
-      <div className='space-y-6'>
-        <div>
-          <h2 className='text-2xl font-bold tracking-tight'>Pagamentos</h2>
-          <p className='text-muted-foreground'>
-            Acompanhe e gerencie os pagamentos das notas fiscais
-          </p>
-        </div>
-
-        <div className='rounded-lg border bg-card p-6'>
-          <p className='text-center text-muted-foreground'>
-            Sistema de pagamentos será implementado na Fase 8
-          </p>
-        </div>
-      </div>
+      <PaymentsClient />
     </DashboardLayout>
   )
 }

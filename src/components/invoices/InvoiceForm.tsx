@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/form'
 import { CurrencyInput } from '@/components/common/CurrencyInput'
 import { SupplierSelect } from '@/components/common/SupplierSelect'
-import { FileUpload } from '@/components/upload/FileUpload'
+import { FileUpload } from '@/components/common/FileUpload'
 import { 
   invoiceFormSchema,
   getInvoiceDefaultValues,
@@ -243,7 +243,7 @@ export function InvoiceForm({
                   {!uploadedFile ? (
                     <FileUpload
                       onFilesSelect={handleFileSelect}
-                      accept={['.pdf']}
+                      accept=".pdf"
                       maxSize={10 * 1024 * 1024} // 10MB
                       maxFiles={1}
                       disabled={isFormLoading}

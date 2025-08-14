@@ -4,7 +4,12 @@ import { useState, useEffect } from 'react'
 import { PaymentMethod, PaymentMethodsResponse, PaymentMethodFilters, CreatePaymentMethodData, UpdatePaymentMethodData } from '@/types/payment-method'
 import { useToast } from './useToast'
 
-export function usePaymentMethods(filters: PaymentMethodFilters = {}) {
+interface UsePaymentMethodsOptions extends PaymentMethodFilters {
+  auto_fetch?: boolean
+}
+
+export function usePaymentMethods(options: UsePaymentMethodsOptions = {}) {
+  const { auto_fetch = true, ...filters } = options
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -157,8 +162,10 @@ export function usePaymentMethods(filters: PaymentMethodFilters = {}) {
 
   // Carregar formas de pagamento quando filters mudam
   useEffect(() => {
-    fetchPaymentMethods(filters)
-  }, [JSON.stringify(filters)])
+    if (auto_fetch) {
+      fetchPaymentMethods(filters)
+    }
+  }, [JSON.stringify(filters), auto_fetch])
 
   return {
     paymentMethods,

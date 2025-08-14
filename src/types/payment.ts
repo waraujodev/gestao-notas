@@ -6,6 +6,7 @@ export interface Payment {
   amount_cents: number
   payment_date: string // ISO date string
   receipt_path: string
+  receipt_url?: string // URL assinada do comprovante
   receipt_size_bytes: number | null
   receipt_type: 'pdf' | 'jpg' | 'png'
   notes: string | null
@@ -23,6 +24,10 @@ export interface Payment {
     total_amount_cents: number
     due_date: string
     supplier_id: string
+    supplier?: {
+      id: string
+      name: string
+    }
   }
 }
 
@@ -66,13 +71,18 @@ export interface UpdatePaymentData extends Partial<Omit<CreatePaymentData, 'rece
 export interface PaymentFilters {
   search?: string
   invoice_id?: string
+  supplier_id?: string
   payment_method_id?: string
   payment_date_from?: string
   payment_date_to?: string
+  start_date?: string
+  end_date?: string
   created_from?: string
   created_to?: string
   min_amount_cents?: number
   max_amount_cents?: number
+  min_amount?: string
+  max_amount?: string
 }
 
 export interface PaymentsResponse {

@@ -28,7 +28,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { MoreHorizontal, Eye, Edit2, Trash2, Plus, FileText } from 'lucide-react'
+import { MoreHorizontal, Eye, Edit2, Trash2, Plus, FileText, Receipt } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils/currency'
 import { formatDate, isOverdue } from '@/lib/utils/date'
 import type { InvoiceSummary, PaymentStatus } from '@/types/invoice'
