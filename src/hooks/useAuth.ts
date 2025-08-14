@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { User, Session, AuthError } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { useToast } from './useToast'
 
 interface AuthState {
   user: User | null
@@ -30,6 +31,7 @@ export function useAuth(): AuthState & AuthActions {
   
   const router = useRouter()
   const supabase = createClient()
+  const toast = useToast()
 
   useEffect(() => {
     // Obter sessão inicial
@@ -92,10 +94,14 @@ export function useAuth(): AuthState & AuthActions {
 
     if (error) {
       setState(prev => ({ ...prev, error: error.message, loading: false }))
+      toast.error('Erro ao fazer login', {
+        description: error.message
+      })
       return { error }
     }
 
     // Redirecionar para dashboard após login bem-sucedido
+    toast.success('Login realizado com sucesso!')
     router.push('/dashboard')
     return { error: null }
   }
@@ -113,10 +119,16 @@ export function useAuth(): AuthState & AuthActions {
 
     if (error) {
       setState(prev => ({ ...prev, error: error.message, loading: false }))
+      toast.error('Erro ao criar conta', {
+        description: error.message
+      })
       return { error }
     }
 
     setState(prev => ({ ...prev, loading: false }))
+    toast.success('Conta criada com sucesso!', {
+      description: 'Verifique seu email para confirmar a conta'
+    })
     return { error: null }
   }
 
@@ -127,10 +139,14 @@ export function useAuth(): AuthState & AuthActions {
 
     if (error) {
       setState(prev => ({ ...prev, error: error.message, loading: false }))
+      toast.error('Erro ao fazer logout', {
+        description: error.message
+      })
       return { error }
     }
 
     // Redirecionar para login após logout
+    toast.success('Logout realizado com sucesso!')
     router.push('/auth/login')
     return { error: null }
   }

@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { DashboardLayout } from '@/components/layout/DashboardLayout'
 
 export const metadata: Metadata = {
   title: 'Dashboard - Gestão de Notas Fiscais',
@@ -19,12 +20,12 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className='container mx-auto py-8'>
+    <DashboardLayout>
       <div className='space-y-6'>
         <div>
-          <h1 className='text-3xl font-bold tracking-tight'>Dashboard</h1>
+          <h2 className='text-2xl font-bold tracking-tight'>Visão Geral</h2>
           <p className='text-muted-foreground'>
-            Bem-vindo ao sistema de gestão de notas fiscais
+            Acompanhe suas métricas e atividades recentes
           </p>
         </div>
 
@@ -91,6 +92,6 @@ export default async function DashboardPage() {
           </p>
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   )
 }

@@ -42,12 +42,12 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **2.7** Criar middleware de proteção de rotas
 
 ### Fase 3: Componentes Base e Layout
-- [ ] **3.1** Criar layout principal com sidebar e header
-- [ ] **3.2** Implementar navegação e breadcrumbs
-- [ ] **3.3** Criar componentes de UI básicos (Button, Input, Card, etc.)
-- [ ] **3.4** Implementar tema dark/light
-- [ ] **3.5** Configurar toast notifications
-- [ ] **3.6** Criar loading states e skeletons
+- [x] **3.1** Criar layout principal com sidebar e header
+- [x] **3.2** Implementar navegação e breadcrumbs
+- [x] **3.3** Criar componentes de UI básicos (Button, Input, Card, etc.)
+- [x] **3.4** Implementar tema dark/light
+- [x] **3.5** Configurar toast notifications
+- [x] **3.6** Criar loading states e skeletons
 
 ### Fase 4: Gestão de Fornecedores
 - [ ] **4.1** Criar página de listagem de fornecedores
@@ -212,5 +212,5 @@ Etapa 4.1 concluída conforme roadmap.
 
 ---
 
-> **Última atualização:** 13/08/2025  
-> **Progresso atual:** 15/76 etapas concluídas (19,7%)
+> **Última atualização:** 14/08/2025  
+> **Progresso atual:** 21/76 etapas concluídas (27,6%)
