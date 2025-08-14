@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { InvoicesTable } from '@/components/invoices/InvoicesTable'
 import { InvoicesFilters } from '@/components/invoices/InvoicesFilters'
+import { InvoiceDialog } from '@/components/invoices/InvoiceDialog'
 import { useInvoices } from '@/hooks/useInvoices'
 import type { InvoiceFilters, InvoiceSummary } from '@/types/invoice'
 
@@ -13,13 +14,15 @@ export default function InvoicesPage() {
   const [filters, setFilters] = useState<InvoiceFilters>({})
   const [page, setPage] = useState(1)
   const [perPage] = useState(10)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [editingInvoice, setEditingInvoice] = useState<InvoiceSummary | null>(null)
+  const [dialogMode, setDialogMode] = useState<'create' | 'edit'>('create')
 
   const { 
     invoices, 
     loading, 
     pagination,
-    deleteInvoice,
-    refetch 
+    deleteInvoice
   } = useInvoices({
     page,
     per_page: perPage,
@@ -37,8 +40,9 @@ export default function InvoicesPage() {
   }
 
   const handleEdit = (invoice: InvoiceSummary) => {
-    // TODO: Implement edit functionality in next phase
-    console.log('Edit invoice:', invoice)
+    setEditingInvoice(invoice)
+    setDialogMode('edit')
+    setDialogOpen(true)
   }
 
   const handleView = (invoice: InvoiceSummary) => {
@@ -61,8 +65,14 @@ export default function InvoicesPage() {
   }
 
   const handleNewInvoice = () => {
-    // TODO: Implement new invoice functionality in next phase
-    console.log('New invoice')
+    setEditingInvoice(null)
+    setDialogMode('create')
+    setDialogOpen(true)
+  }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false)
+    setEditingInvoice(null)
   }
 
   return (
@@ -132,6 +142,14 @@ export default function InvoicesPage() {
             </div>
           </div>
         )}
+
+        {/* Dialog for Create/Edit */}
+        <InvoiceDialog
+          open={dialogOpen}
+          onOpenChange={handleDialogClose}
+          invoice={editingInvoice}
+          mode={dialogMode}
+        />
       </div>
     </DashboardLayout>
   )

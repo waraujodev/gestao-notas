@@ -28,6 +28,17 @@ export interface InvoiceSummary extends Invoice {
 
 export type PaymentStatus = 'Pendente' | 'Pago Parcial' | 'Pago' | 'Atrasado'
 
+// Types para formulários
+export interface InvoiceFormData {
+  supplier_id: string
+  series: string
+  number: string
+  due_date: string
+  total_amount: string // String no formulário, convertido para number
+  pdf_file: File
+  notes?: string
+}
+
 export interface InvoiceFilters {
   search?: string
   supplier_id?: string
@@ -58,4 +69,5 @@ export interface CreateInvoiceData {
 export interface UpdateInvoiceData extends Partial<Omit<CreateInvoiceData, 'pdf_file'>> {
   id: string
   pdf_file?: File
+  notes?: string
 }
