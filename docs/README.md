@@ -58,6 +58,13 @@ Para instruções específicas sobre como assistentes IA devem trabalhar com est
    - Instruções para commits por etapa
    - Ordem de desenvolvimento estruturada
 
+4. **[SPEC_20250814_200456_padrao_interface_tabelas.md](SPEC_20250814_200456_padrao_interface_tabelas.md)**
+   - Padrão consistente para páginas com tabelas
+   - Estrutura de componentes e layout
+   - Guia completo para implementação
+   - Estilos e comportamentos padronizados
+   - Checklist para novas implementações
+
 ## 📌 Convenções para Criar Documentação
 
 ### Regras Obrigatórias:
