@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
         pdf_size_bytes,
         created_at,
         updated_at,
-        supplier:suppliers!inner (
+        suppliers!inner (
           id,
           name,
           document
@@ -143,6 +143,7 @@ export async function GET(request: NextRequest) {
 
       return {
         ...invoice,
+        supplier: (invoice as any).suppliers,  // Ajustar nome do relacionamento
         paid_amount_cents,
         remaining_amount_cents,
         payment_status,
@@ -284,7 +285,7 @@ export async function POST(request: NextRequest) {
         pdf_size_bytes,
         created_at,
         updated_at,
-        supplier:suppliers!inner (
+        suppliers!inner (
           id,
           name,
           document
@@ -308,6 +309,7 @@ export async function POST(request: NextRequest) {
     // Adicionar campos calculados
     const enrichedInvoice = {
       ...invoice,
+      supplier: (invoice as any).suppliers,  // Ajustar nome do relacionamento
       paid_amount_cents: 0,
       remaining_amount_cents: invoice.total_amount_cents,
       payment_status: 'Pendente' as PaymentStatus,

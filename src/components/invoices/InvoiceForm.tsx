@@ -22,9 +22,9 @@ import { FileUpload } from '@/components/upload/FileUpload'
 import { 
   invoiceFormSchema,
   getInvoiceDefaultValues,
-  prepareInvoiceData,
-  type InvoiceFormData 
+  prepareInvoiceData
 } from '@/lib/validations/invoice'
+import type { InvoiceFormData } from '@/types/invoice'
 import { getDateInputValue } from '@/lib/utils/date'
 import { formatCurrency } from '@/lib/utils/currency'
 
@@ -46,7 +46,7 @@ export function InvoiceForm({
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
-  const form = useForm<InvoiceFormData>({
+  const form = useForm({
     resolver: zodResolver(invoiceFormSchema),
     defaultValues: {
       ...getInvoiceDefaultValues(),

@@ -42,7 +42,7 @@ export function SupplierSelect({
   const [searchValue, setSearchValue] = useState('')
   
   const { suppliers, loading, refetch } = useSuppliers({
-    per_page: 100 // Buscar até 100 fornecedores
+    limit: 100 // Buscar até 100 fornecedores
   })
 
   const selectedSupplier = suppliers.find(supplier => supplier.id === value)

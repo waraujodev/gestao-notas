@@ -21,6 +21,8 @@ export interface Payment {
     series: string
     number: string
     total_amount_cents: number
+    due_date: string
+    supplier_id: string
   }
 }
 
@@ -31,6 +33,7 @@ export interface PaymentWithInvoice extends Payment {
     number: string
     total_amount_cents: number
     due_date: string
+    supplier_id: string
     supplier?: {
       id: string
       name: string

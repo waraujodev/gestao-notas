@@ -44,20 +44,17 @@ export async function GET(request: NextRequest) {
         receipt_type,
         notes,
         created_at,
-        payment_method:payment_methods (
+        payment_methods!inner (
           id,
           name
         ),
-        invoice:invoices (
+        invoices!inner (
           id,
           series,
           number,
           total_amount_cents,
           due_date,
-          supplier:suppliers (
-            id,
-            name
-          )
+          supplier_id
         )
       `, { count: 'exact' })
       .eq('user_id', user.id)
@@ -100,8 +97,15 @@ export async function GET(request: NextRequest) {
 
     const total_pages = Math.ceil((count || 0) / per_page)
 
+    // Mapear os relacionamentos para os nomes corretos
+    const mappedPayments = payments?.map(payment => ({
+      ...payment,
+      payment_method: (payment as any).payment_methods,
+      invoice: (payment as any).invoices
+    })) || []
+
     const response: PaymentsResponse = {
-      data: payments || [],
+      data: mappedPayments,
       count: count || 0,
       page,
       per_page,

@@ -131,7 +131,7 @@ export function preparePaymentData(data: PaymentFormData, invoice_id: string): F
   const formData = new FormData()
   
   // Converter string para centavos
-  const numericValue = parseFloat(data.amount.replace(/[R$\s.]/g, '').replace(',', '.'))
+  const numericValue = parseFloat(data.amount.toString().replace(/[R$\s.]/g, '').replace(',', '.'))
   const amountCents = realToCents(numericValue)
   
   formData.append('invoice_id', invoice_id)
@@ -157,7 +157,7 @@ export function preparePaymentEditData(data: PaymentEditData): FormData {
   if (data.notes !== undefined) formData.append('notes', data.notes || '')
   
   if (data.amount !== undefined) {
-    const numericValue = parseFloat(data.amount.replace(/[R$\s.]/g, '').replace(',', '.'))
+    const numericValue = parseFloat(data.amount.toString().replace(/[R$\s.]/g, '').replace(',', '.'))
     const amountCents = realToCents(numericValue)
     formData.append('amount_cents', amountCents.toString())
   }

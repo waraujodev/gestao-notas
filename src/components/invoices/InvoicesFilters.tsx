@@ -49,8 +49,8 @@ export function InvoicesFilters({
   const searchInputRef = useRef<HTMLInputElement>(null)
   
   const { suppliers, loading: loadingSuppliers } = useSuppliers({ 
-    filters: { status: true },
-    per_page: 100 
+    status: true,
+    limit: 100 
   })
 
   // Debounce search input

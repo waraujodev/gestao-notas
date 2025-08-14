@@ -35,7 +35,7 @@ export function useInvoices(options: UseInvoicesOptions = {}) {
     total_pages: 0
   })
 
-  const { toast } = useToast()
+  const toast = useToast()
 
   const fetchInvoices = useCallback(async () => {
     const supabase = createClient()

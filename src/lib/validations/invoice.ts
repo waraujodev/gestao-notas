@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { realToCents } from '@/lib/utils/currency'
+import type { InvoiceFormData, InvoiceProcessedData } from '@/types/invoice'
 
 // Schema para validação de valores monetários (em reais, convertido para centavos)
 const moneySchema = z
@@ -123,7 +124,7 @@ export const invoiceEditSchema = z.object({
 })
 
 // Tipos derivados dos schemas
-export type InvoiceFormData = z.infer<typeof invoiceFormSchema>
+export type InvoiceZodFormData = z.infer<typeof invoiceFormSchema>
 export type InvoiceEditData = z.infer<typeof invoiceEditSchema>
 
 // Schema para dados processados (enviados para a API)
@@ -159,7 +160,7 @@ export function prepareInvoiceData(data: InvoiceFormData): FormData {
   const formData = new FormData()
   
   // Converter string para centavos
-  const numericValue = parseFloat(data.total_amount.replace(/[R$\s.]/g, '').replace(',', '.'))
+  const numericValue = parseFloat(data.total_amount.toString().replace(/[R$\s.]/g, '').replace(',', '.'))
   const totalAmountCents = realToCents(numericValue)
   
   formData.append('supplier_id', data.supplier_id)
@@ -184,7 +185,11 @@ export function prepareInvoiceEditData(data: InvoiceEditData): FormData {
   if (data.series) formData.append('series', data.series)
   if (data.number) formData.append('number', data.number)
   if (data.due_date) formData.append('due_date', data.due_date)
-  if (data.total_amount !== undefined) formData.append('total_amount_cents', data.total_amount.toString())
+  if (data.total_amount !== undefined) {
+    const numericValue = parseFloat(data.total_amount.toString().replace(/[R$\s.]/g, '').replace(',', '.'))
+    const amountCents = realToCents(numericValue)
+    formData.append('total_amount_cents', amountCents.toString())
+  }
   if (data.pdf_file) formData.append('pdf_file', data.pdf_file)
   if (data.notes !== undefined) formData.append('notes', data.notes.trim())
   

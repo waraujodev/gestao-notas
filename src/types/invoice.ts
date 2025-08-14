@@ -34,7 +34,18 @@ export interface InvoiceFormData {
   series: string
   number: string
   due_date: string
-  total_amount: string // String no formulário, convertido para number
+  total_amount: string // String no formulário, convertido para centavos
+  pdf_file: File
+  notes?: string
+}
+
+// Tipo processado pelo Zod (valores já transformados)
+export interface InvoiceProcessedData {
+  supplier_id: string
+  series: string
+  number: string
+  due_date: string
+  total_amount: number // Já convertido para centavos
   pdf_file: File
   notes?: string
 }

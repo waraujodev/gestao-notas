@@ -59,7 +59,7 @@ export function PaymentForm({
   const [customAmountError, setCustomAmountError] = useState<string | null>(null)
 
   const { paymentMethods, loading: loadingMethods } = usePaymentMethods({
-    per_page: 50
+    limit: 50
   })
 
   const form = useForm<PaymentFormData>({
