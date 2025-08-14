@@ -31,7 +31,7 @@ function getStatusVariant(status: PaymentStatus): 'default' | 'secondary' | 'des
   }
 }
 
-function getDaysUntilDue(dueDate: string): { days: number; label: string; variant: 'default' | 'warning' | 'danger' } {
+function getDaysUntilDue(dueDate: string): { days: number; label: string; variant: 'default' | 'warning' | 'destructive' } {
   const due = new Date(dueDate)
   const now = new Date()
   const diffTime = due.getTime() - now.getTime()
@@ -41,13 +41,13 @@ function getDaysUntilDue(dueDate: string): { days: number; label: string; varian
     return {
       days: Math.abs(diffDays),
       label: `${Math.abs(diffDays)} dia${Math.abs(diffDays) !== 1 ? 's' : ''} atrasado`,
-      variant: 'danger'
+      variant: 'destructive'
     }
   } else if (diffDays === 0) {
     return {
       days: 0,
       label: 'Vence hoje',
-      variant: 'danger'
+      variant: 'destructive'
     }
   } else if (diffDays <= 7) {
     return {
@@ -83,12 +83,12 @@ export function UpcomingInvoices({
           {[...Array(3)].map((_, i) => (
             <div key={i} className="flex items-center justify-between p-3 border rounded-lg">
               <div className="space-y-2">
-                <div className="h-4 bg-gray-200 rounded animate-pulse w-32"></div>
-                <div className="h-3 bg-gray-100 rounded animate-pulse w-24"></div>
+                <div className="h-4 bg-muted rounded animate-pulse w-32"></div>
+                <div className="h-3 bg-muted/60 rounded animate-pulse w-24"></div>
               </div>
               <div className="space-y-2 text-right">
-                <div className="h-4 bg-gray-200 rounded animate-pulse w-20"></div>
-                <div className="h-3 bg-gray-100 rounded animate-pulse w-16"></div>
+                <div className="h-4 bg-muted rounded animate-pulse w-20"></div>
+                <div className="h-3 bg-muted/60 rounded animate-pulse w-16"></div>
               </div>
             </div>
           ))}
@@ -121,8 +121,8 @@ export function UpcomingInvoices({
                   key={invoice.id}
                   className={cn(
                     "flex items-center justify-between p-3 border rounded-lg transition-colors hover:bg-muted/50",
-                    dueInfo.variant === 'danger' && "border-red-200 bg-red-50",
-                    dueInfo.variant === 'warning' && "border-orange-200 bg-orange-50"
+                    dueInfo.variant === 'destructive' && "border-destructive/20 bg-destructive/5",
+                    dueInfo.variant === 'warning' && "border-amber-200 bg-amber-50"
                   )}
                 >
                   <div className="space-y-1 flex-1">
@@ -153,10 +153,10 @@ export function UpcomingInvoices({
                     <div className="text-right">
                       <div className={cn(
                         "font-medium text-sm",
-                        dueInfo.variant === 'danger' && "text-red-600",
-                        dueInfo.variant === 'warning' && "text-orange-600"
+                        dueInfo.variant === 'destructive' && "text-destructive",
+                        dueInfo.variant === 'warning' && "text-amber-600"
                       )}>
-                        {dueInfo.variant === 'danger' && <AlertTriangle className="inline w-3 h-3 mr-1" />}
+                        {dueInfo.variant === 'destructive' && <AlertTriangle className="inline w-3 h-3 mr-1" />}
                         {dueInfo.label}
                       </div>
                       <div className="text-xs text-muted-foreground">
