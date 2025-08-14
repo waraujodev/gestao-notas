@@ -30,7 +30,8 @@ export async function middleware(request: NextRequest) {
   const response = await updateSession(request)
 
   // Verificar se o usuário está autenticado
-  const supabase = (await import('@/lib/supabase/server')).createServerClient()
+  const { createClient } = await import('@/lib/supabase/server')
+  const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()

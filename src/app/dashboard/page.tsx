@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import { createServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
   title: 'Dashboard - Gestão de Notas Fiscais',
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 }
 
 export default async function DashboardPage() {
-  const supabase = createServerClient()
+  const supabase = await createClient()
   
   const {
     data: { user },

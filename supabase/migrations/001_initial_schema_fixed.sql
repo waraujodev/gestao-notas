@@ -1,5 +1,5 @@
 -- ============================================================================
--- SCHEMA INICIAL - Sistema de Gestão de Notas Fiscais
+-- SCHEMA INICIAL - Sistema de Gestão de Notas Fiscais (VERSÃO CORRIGIDA)
 -- ============================================================================
 
 -- Extensões necessárias
@@ -122,7 +122,7 @@ CREATE TRIGGER update_invoices_updated_at BEFORE UPDATE ON invoices
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- ============================================================================
--- FUNÇÃO PARA CÁLCULOS DE STATUS (Substituindo a View problemática)
+-- FUNÇÃO PARA CÁLCULOS DE STATUS
 -- ============================================================================
 
 -- Função otimizada para calcular status e valores da nota fiscal
@@ -182,59 +182,48 @@ INSERT INTO payment_methods (user_id, name, description, is_system_default, disp
 ON CONFLICT DO NOTHING;  -- Evita erro se já existirem
 
 -- ============================================================================
--- ÍNDICES CRÍTICOS PARA PERFORMANCE
+-- ÍNDICES BÁSICOS PARA PERFORMANCE (SEM FUNÇÕES PROBLEMÁTICAS)
 -- ============================================================================
 
--- Índices para suppliers (otimiza listagem e busca)
+-- Índices para suppliers
 CREATE INDEX IF NOT EXISTS idx_suppliers_user_status 
 ON suppliers (user_id, status) 
-WHERE status = true;  -- Índice parcial para fornecedores ativos
+WHERE status = true;
 
 CREATE INDEX IF NOT EXISTS idx_suppliers_user_name 
-ON suppliers (user_id, name);  -- Para busca por nome
+ON suppliers (user_id, name);
 
-CREATE INDEX IF NOT EXISTS idx_suppliers_document 
-ON suppliers USING gin (document gin_trgm_ops);  -- Para busca fuzzy em documentos
-
--- Índices para payment_methods (otimiza seleção em formulários)
+-- Índices para payment_methods
 CREATE INDEX IF NOT EXISTS idx_payment_methods_system_active 
 ON payment_methods (is_system_default, status, display_order) 
-WHERE status = true;  -- Para métodos do sistema ativos
+WHERE status = true;
 
 CREATE INDEX IF NOT EXISTS idx_payment_methods_user_active 
 ON payment_methods (user_id, status, display_order) 
-WHERE user_id IS NOT NULL AND status = true;  -- Para métodos do usuário
+WHERE user_id IS NOT NULL AND status = true;
 
--- Índices para invoices (CRÍTICOS para performance do dashboard)
+-- Índices para invoices
 CREATE INDEX IF NOT EXISTS idx_invoices_user_due_date 
-ON invoices (user_id, due_date DESC);  -- Dashboard: próximas a vencer
+ON invoices (user_id, due_date DESC);
 
 CREATE INDEX IF NOT EXISTS idx_invoices_user_created 
-ON invoices (user_id, created_at DESC);  -- Listagem por data de criação
+ON invoices (user_id, created_at DESC);
 
 CREATE INDEX IF NOT EXISTS idx_invoices_supplier_date 
-ON invoices (supplier_id, created_at DESC);  -- Notas por fornecedor
+ON invoices (supplier_id, created_at DESC);
 
 CREATE INDEX IF NOT EXISTS idx_invoices_search 
-ON invoices (user_id, series, number);  -- Busca por série/número
+ON invoices (user_id, series, number);
 
--- Índice para notas em atraso (sem usar CURRENT_DATE para evitar problemas de imutabilidade)
-CREATE INDEX IF NOT EXISTS idx_invoices_user_due_date_lookup 
-ON invoices (user_id, due_date);  -- Para consultas de atraso
-
--- Índices para payments (CRÍTICOS para cálculos de status)
+-- Índices para payments
 CREATE INDEX IF NOT EXISTS idx_payments_invoice_amount 
-ON payments (invoice_id, amount_cents);  -- Para SUM() otimizada
+ON payments (invoice_id, amount_cents);
 
 CREATE INDEX IF NOT EXISTS idx_payments_user_date 
-ON payments (user_id, payment_date DESC);  -- Histórico de pagamentos
-
--- Índice para relatórios mensais (sem usar date_trunc para evitar problemas de imutabilidade)
-CREATE INDEX IF NOT EXISTS idx_payments_user_date_month 
-ON payments (user_id, payment_date);  -- Para relatórios mensais (filtrar na aplicação)
+ON payments (user_id, payment_date DESC);
 
 CREATE INDEX IF NOT EXISTS idx_payments_method_stats 
-ON payments (payment_method_id, user_id, payment_date);  -- Estatísticas por método
+ON payments (payment_method_id, user_id, payment_date);
 
 -- ============================================================================
 -- FUNÇÃO DE SEGURANÇA PARA VALIDAÇÃO CRUZADA
