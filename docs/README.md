@@ -28,7 +28,9 @@ Os arquivos seguem o padrão: **`TIPO_AAAAMMDD_HHMMSS_DESCRICAO.md`**
 docs/
 ├── README.md  # Este arquivo
 ├── PLAN_20250813_145528_sistema_gestao_notas_fiscais.md
-└── IMPL_20250813_145823_sistema_gestao_notas_fiscais.md
+├── IMPL_20250813_145823_sistema_gestao_notas_fiscais.md
+├── SPEC_20250814_200456_padrao_interface_tabelas.md
+└── FIX_20250815_105700_otimizacoes_arquitetura_react_nextjs.md
 ```
 
 ## 🤖 Integração com Assistentes IA
@@ -64,6 +66,13 @@ Para instruções específicas sobre como assistentes IA devem trabalhar com est
    - Guia completo para implementação
    - Estilos e comportamentos padronizados
    - Checklist para novas implementações
+
+5. **[FIX_20250815_105700_otimizacoes_arquitetura_react_nextjs.md](FIX_20250815_105700_otimizacoes_arquitetura_react_nextjs.md)**
+   - Correções críticas de performance identificadas
+   - Otimizações de arquitetura React 19+ e Next.js 15+
+   - Plano de implementação em 3 fases
+   - Eliminação de anti-patterns e memory leaks
+   - Métricas de performance e resultados esperados
 
 ## 📌 Convenções para Criar Documentação
 

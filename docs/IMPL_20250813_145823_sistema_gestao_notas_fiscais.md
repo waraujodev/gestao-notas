@@ -118,29 +118,39 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **11.5** Testar com screen readers
 - [x] **11.6** Melhorar contraste e tipografia
 
-### Fase 12: Testes e Qualidade
-- [ ] **12.1** Configurar Jest e Testing Library
-- [ ] **12.2** Criar testes unitários para componentes
-- [ ] **12.3** Implementar testes de integração
-- [ ] **12.4** Adicionar testes E2E com Playwright
-- [ ] **12.5** Configurar coverage reports
-- [ ] **12.6** Implementar testes de API routes
+### Fase 12: Otimizações Arquiteturais (NOVO)
+- [ ] **12.1** Corrigir JSON.stringify em hooks (useInvoices, useSuppliers)
+- [ ] **12.2** Implementar React.memo em componentes de tabela
+- [ ] **12.3** Otimizar callbacks com useCallback
+- [ ] **12.4** Corrigir memory leak potencial no useAuth
+- [ ] **12.5** Implementar Loading e Error Boundaries nas rotas
+- [ ] **12.6** Refatorar InvoicesTable - extrair hook customizado
+- [ ] **12.7** Criar hook useOptimizedFilters reutilizável
+- [ ] **12.8** Testar performance antes/depois das otimizações
 
-### Fase 13: Deploy e Produção
-- [ ] **13.1** Configurar Vercel para deploy
-- [ ] **13.2** Configurar variáveis de ambiente de produção
-- [ ] **13.3** Implementar CI/CD com GitHub Actions
-- [ ] **13.4** Configurar monitoramento de erros
-- [ ] **13.5** Implementar backup automático do banco
-- [ ] **13.6** Criar script de migração de dados
+### Fase 13: Testes e Qualidade
+- [x] **13.1** Configurar Jest e Testing Library
+- [ ] **13.2** Criar testes unitários para componentes
+- [ ] **13.3** Implementar testes de integração
+- [ ] **13.4** Adicionar testes E2E com Playwright
+- [ ] **13.5** Configurar coverage reports
+- [ ] **13.6** Implementar testes de API routes
 
-### Fase 14: Documentação e Finalização
-- [ ] **14.1** Criar README completo com setup
-- [ ] **14.2** Documentar API routes
-- [ ] **14.3** Criar guia do usuário
-- [ ] **14.4** Documentar componentes reutilizáveis
-- [ ] **14.5** Criar CHANGELOG
-- [ ] **14.6** Preparar apresentação final
+### Fase 14: Deploy e Produção
+- [ ] **14.1** Configurar Vercel para deploy
+- [ ] **14.2** Configurar variáveis de ambiente de produção
+- [ ] **14.3** Implementar CI/CD com GitHub Actions
+- [ ] **14.4** Configurar monitoramento de erros
+- [ ] **14.5** Implementar backup automático do banco
+- [ ] **14.6** Criar script de migração de dados
+
+### Fase 15: Documentação e Finalização
+- [ ] **15.1** Criar README completo com setup
+- [ ] **15.2** Documentar API routes
+- [ ] **15.3** Criar guia do usuário
+- [ ] **15.4** Documentar componentes reutilizáveis
+- [ ] **15.5** Criar CHANGELOG
+- [ ] **15.6** Preparar apresentação final
 
 ---
 
@@ -213,4 +223,5 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 15/08/2025  
-> **Progresso atual:** 67/76 etapas concluídas (88,2%)
+> **Progresso atual:** 67/84 etapas concluídas (79,8%)  
+> **Nova Fase 12:** Otimizações Arquiteturais adicionada antes dos testes
