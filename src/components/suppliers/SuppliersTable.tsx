@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { Plus, Search, Filter, Edit, Trash2, Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,10 +22,10 @@ import { SuppliersFilters } from './SuppliersFilters'
 import { SupplierForm } from './SupplierForm'
 
 export const SuppliersTable = React.memo(function SuppliersTable() {
-  const [filters, setFilters] = useState<SupplierFilters>({
+  const [filters, setFilters] = useState<SupplierFilters>(() => ({
     page: 1,
     limit: 10,
-  })
+  }))
   const [searchTerm, setSearchTerm] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [editingSupplier, setEditingSupplier] = useState<string | null>(null)
@@ -40,10 +40,18 @@ export const SuppliersTable = React.memo(function SuppliersTable() {
     variant: 'destructive'
   })
 
-  const { suppliers, loading, pagination, deleteSupplier, refetch } = useSuppliers({
+  // Memoizar objeto de filtros para evitar re-renders
+  const memoizedFilters = useMemo(() => ({
     ...filters,
     search: debouncedSearchTerm || undefined,
-  })
+  }), [
+    filters.page,
+    filters.limit,
+    filters.status,
+    debouncedSearchTerm
+  ])
+
+  const { suppliers, loading, pagination, deleteSupplier, refetch } = useSuppliers(memoizedFilters)
 
   const handleSearch = useCallback((value: string) => {
     setSearchTerm(value)

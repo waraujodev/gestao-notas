@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { Supplier, SuppliersResponse, SupplierFilters, CreateSupplierData, UpdateSupplierData } from '@/types/supplier'
 import { useToast } from './useToast'
 
@@ -22,21 +22,10 @@ export function useSuppliers(options: UseSuppliersOptions = {}) {
   })
 
   const toast = useToast()
+  const lastFiltersRef = useRef<string>('')
+  const isInitialMount = useRef(true)
 
-  // Memoizar dependências de filtros para evitar re-renders desnecessários
-  const filterDeps = useMemo(() => [
-    filters.search,
-    filters.status,
-    filters.page,
-    filters.limit
-  ], [
-    filters.search,
-    filters.status,
-    filters.page,
-    filters.limit
-  ])
-
-  const fetchSuppliers = async (currentFilters: SupplierFilters = {}) => {
+  const fetchSuppliers = useCallback(async (currentFilters: SupplierFilters = {}) => {
     try {
       setLoading(true)
       setError(null)
@@ -70,7 +59,7 @@ export function useSuppliers(options: UseSuppliersOptions = {}) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [per_page])
 
   const createSupplier = async (data: CreateSupplierData): Promise<boolean> => {
     try {
@@ -175,12 +164,21 @@ export function useSuppliers(options: UseSuppliersOptions = {}) {
     }
   }
 
-  // Carregar fornecedores quando filters mudam
+  // Carregar fornecedores quando filters mudam (usando ref para evitar loops)
   useEffect(() => {
-    if (auto_fetch) {
+    if (!auto_fetch) return
+
+    const currentFiltersString = JSON.stringify(filters)
+    
+    // Só fazer fetch se:
+    // 1. É o primeiro mount OU
+    // 2. Os filtros realmente mudaram
+    if (isInitialMount.current || currentFiltersString !== lastFiltersRef.current) {
+      lastFiltersRef.current = currentFiltersString
+      isInitialMount.current = false
       fetchSuppliers(filters)
     }
-  }, [filterDeps, auto_fetch, fetchSuppliers])
+  }, [auto_fetch, filters, fetchSuppliers])
 
   return {
     suppliers,
