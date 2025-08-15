@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useConfirmDialog } from '@/components/ui/confirm-dialog'
 import {
   Table,
   TableBody,
@@ -28,16 +29,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
 import { TableSkeleton } from '@/components/loading/TableSkeleton'
 import { useInvoices } from '@/hooks/useInvoices'
 import { InvoiceFilters, InvoiceSummary, PaymentStatus } from '@/types/invoice'
@@ -71,7 +62,12 @@ export function InvoicesTable() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingInvoice, setEditingInvoice] = useState<InvoiceSummary | null>(null)
   const [dialogMode, setDialogMode] = useState<'create' | 'edit'>('create')
-  const [deleteId, setDeleteId] = useState<string | null>(null)
+  // Dialog de confirmação para exclusão
+  const { confirm: confirmDelete, ConfirmDialog } = useConfirmDialog({
+    title: 'Excluir Nota Fiscal',
+    description: 'Tem certeza que deseja excluir esta nota fiscal? Esta ação não pode ser desfeita e removerá também todos os pagamentos relacionados.',
+    variant: 'destructive'
+  })
   
   // Payment dialog state
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false)
@@ -140,11 +136,10 @@ export function InvoicesTable() {
     setViewingPayments(true)
   }
 
-  const handleDelete = async () => {
-    if (deleteId) {
-      await deleteInvoice(deleteId)
-      setDeleteId(null)
-    }
+  const handleDelete = async (invoiceId: string) => {
+    confirmDelete(async () => {
+      await deleteInvoice(invoiceId)
+    })
   }
 
   const handleNewInvoice = () => {
@@ -344,7 +339,7 @@ export function InvoicesTable() {
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
-                                      onClick={() => setDeleteId(invoice.id)}
+                                      onClick={() => handleDelete(invoice.id)}
                                       className="text-red-600"
                                     >
                                       <Trash2 className="mr-2 h-4 w-4" />
@@ -418,23 +413,8 @@ export function InvoicesTable() {
         />
       )}
 
-      {/* Alert Dialog for Delete Confirmation */}
-      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
-            <AlertDialogDescription>
-              Tem certeza que deseja excluir esta nota fiscal? Esta ação não pode ser desfeita.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>
-              Excluir
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {/* Dialog de confirmação */}
+      <ConfirmDialog />
     </>
   )
 }

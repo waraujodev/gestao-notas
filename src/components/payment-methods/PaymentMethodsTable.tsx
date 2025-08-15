@@ -5,6 +5,7 @@ import { Plus, Search, Filter, Edit, Trash2, Crown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { useConfirmDialog } from '@/components/ui/confirm-dialog'
 import {
   Table,
   TableBody,
@@ -37,6 +38,13 @@ export function PaymentMethodsTable() {
   const [showForm, setShowForm] = useState(false)
   const [editingPaymentMethod, setEditingPaymentMethod] = useState<string | null>(null)
 
+  // Dialog de confirmação para exclusão
+  const { confirm: confirmDelete, ConfirmDialog } = useConfirmDialog({
+    title: 'Desativar Forma de Pagamento',
+    description: 'Tem certeza que deseja desativar esta forma de pagamento? Esta ação pode afetar notas fiscais relacionadas.',
+    variant: 'warning'
+  })
+
   const { paymentMethods, loading, pagination, deletePaymentMethod, refetch } = usePaymentMethods(filters)
 
   const handleSearch = (value: string) => {
@@ -66,9 +74,9 @@ export function PaymentMethodsTable() {
   }
 
   const handleDelete = async (paymentMethodId: string) => {
-    if (confirm('Tem certeza que deseja desativar esta forma de pagamento?')) {
+    confirmDelete(async () => {
       await deletePaymentMethod(paymentMethodId)
-    }
+    })
   }
 
   const handleFormClose = () => {
@@ -252,6 +260,9 @@ export function PaymentMethodsTable() {
           )}
         </div>
       </CardContent>
+      
+      {/* Dialog de confirmação */}
+      <ConfirmDialog />
     </Card>
   )
 }
