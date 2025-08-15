@@ -7,14 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useConfirmDialog } from '@/components/ui/confirm-dialog'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { ResponsiveTable } from '@/components/ui/responsive-table'
 import {
   Card,
   CardContent,
@@ -22,14 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { TableSkeleton } from '@/components/loading/TableSkeleton'
 import { useInvoices } from '@/hooks/useInvoices'
 import { InvoiceFilters, InvoiceSummary, PaymentStatus } from '@/types/invoice'
 import { formatCurrency } from '@/lib/utils/currency'
@@ -218,143 +203,135 @@ export function InvoicesTable() {
               />
             </div>
 
-            {/* Tabela */}
-            {loading ? (
-              <TableSkeleton rows={10} columns={8} />
-            ) : (
-              <>
-                <div className="rounded-md border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Nota Fiscal</TableHead>
-                        <TableHead>Fornecedor</TableHead>
-                        <TableHead>Vencimento</TableHead>
-                        <TableHead className="text-right">Valor Total</TableHead>
-                        <TableHead className="text-right">Valor Pago</TableHead>
-                        <TableHead className="text-right">Valor Restante</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Ações</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {invoices.length === 0 ? (
-                        <TableRow>
-                          <TableCell colSpan={8} className="text-center py-8">
-                            <div className="text-muted-foreground">
-                              <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                              {filters.search ? 
-                                'Nenhuma nota fiscal encontrada com os filtros aplicados.' :
-                                'Nenhuma nota fiscal cadastrada ainda.'
-                              }
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ) : (
-                        invoices.map((invoice) => {
-                          const overdue = isOverdue(invoice.due_date)
-                          
-                          return (
-                            <TableRow key={invoice.id} className="hover:bg-muted/50">
-                              <TableCell>
-                                <div className="space-y-1">
-                                  <div className="font-medium">
-                                    {invoice.series}/{invoice.number}
-                                  </div>
-                                  <div className="text-sm text-muted-foreground">
-                                    Criada em {formatDate(invoice.created_at)}
-                                  </div>
-                                </div>
-                              </TableCell>
-                              
-                              <TableCell>
-                                <div className="space-y-1">
-                                  <div className="font-medium">
-                                    {invoice.supplier?.name || 'Fornecedor não encontrado'}
-                                  </div>
-                                  {invoice.supplier?.document && (
-                                    <div className="text-sm text-muted-foreground">
-                                      {invoice.supplier.document}
-                                    </div>
-                                  )}
-                                </div>
-                              </TableCell>
-                              
-                              <TableCell>
-                                <div className={`space-y-1 ${overdue ? 'text-red-600' : ''}`}>
-                                  <div className={overdue ? 'font-medium' : ''}>
-                                    {formatDate(invoice.due_date)}
-                                  </div>
-                                  {overdue && (
-                                    <div className="text-xs text-red-500">
-                                      Em atraso
-                                    </div>
-                                  )}
-                                </div>
-                              </TableCell>
-                              
-                              <TableCell className="text-right font-medium">
-                                {formatCurrency(invoice.total_amount_cents)}
-                              </TableCell>
-                              
-                              <TableCell className="text-right">
-                                {formatCurrency(invoice.paid_amount_cents || 0)}
-                              </TableCell>
-                              
-                              <TableCell className="text-right">
-                                {formatCurrency((invoice.total_amount_cents || 0) - (invoice.paid_amount_cents || 0))}
-                              </TableCell>
-                              
-                              <TableCell>
-                                <Badge variant={getStatusVariant(invoice.payment_status || 'Pendente')}>
-                                  {invoice.payment_status || 'Pendente'}
-                                </Badge>
-                              </TableCell>
-                              
-                              <TableCell className="text-right">
-                                <DropdownMenu>
-                                  <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" className="h-8 w-8 p-0">
-                                      <span className="sr-only">Abrir menu</span>
-                                      <MoreHorizontal className="h-4 w-4" />
-                                    </Button>
-                                  </DropdownMenuTrigger>
-                                  <DropdownMenuContent align="end">
-                                    <DropdownMenuItem onClick={() => handleView(invoice)}>
-                                      <Eye className="mr-2 h-4 w-4" />
-                                      Visualizar
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => handleEdit(invoice)}>
-                                      <Edit className="mr-2 h-4 w-4" />
-                                      Editar
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem onClick={() => handleAddPayment(invoice)}>
-                                      <Plus className="mr-2 h-4 w-4" />
-                                      Adicionar Pagamento
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => handleViewPayments(invoice)}>
-                                      <Receipt className="mr-2 h-4 w-4" />
-                                      Ver Pagamentos
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem
-                                      onClick={() => handleDelete(invoice.id)}
-                                      className="text-red-600"
-                                    >
-                                      <Trash2 className="mr-2 h-4 w-4" />
-                                      Excluir
-                                    </DropdownMenuItem>
-                                  </DropdownMenuContent>
-                                </DropdownMenu>
-                              </TableCell>
-                            </TableRow>
-                          )
-                        })
+            {/* Tabela Responsiva */}
+            <ResponsiveTable
+              columns={[
+                {
+                  key: 'invoice_info',
+                  label: 'Nota Fiscal',
+                  isPrimary: true,
+                  render: (_, invoice) => (
+                    <div className="space-y-1">
+                      <div className="font-medium">
+                        {invoice.series}/{invoice.number}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        Criada em {formatDate(invoice.created_at)}
+                      </div>
+                    </div>
+                  ),
+                },
+                {
+                  key: 'supplier_info',
+                  label: 'Fornecedor',
+                  showOnMobile: true,
+                  render: (_, invoice) => (
+                    <div className="space-y-1">
+                      <div className="font-medium">
+                        {invoice.supplier?.name || 'Fornecedor não encontrado'}
+                      </div>
+                      {invoice.supplier?.document && (
+                        <div className="text-sm text-muted-foreground">
+                          {invoice.supplier.document}
+                        </div>
                       )}
-                    </TableBody>
-                  </Table>
-                </div>
+                    </div>
+                  ),
+                },
+                {
+                  key: 'due_date',
+                  label: 'Vencimento',
+                  showOnMobile: true,
+                  render: (_, invoice) => {
+                    const overdue = isOverdue(invoice.due_date)
+                    return (
+                      <div className={`space-y-1 ${overdue ? 'text-red-600' : ''}`}>
+                        <div className={overdue ? 'font-medium' : ''}>
+                          {formatDate(invoice.due_date)}
+                        </div>
+                        {overdue && (
+                          <div className="text-xs text-red-500">
+                            Em atraso
+                          </div>
+                        )}
+                      </div>
+                    )
+                  },
+                },
+                {
+                  key: 'total_amount_cents',
+                  label: 'Valor Total',
+                  showOnMobile: false,
+                  className: 'text-right',
+                  render: (value) => (
+                    <span className="font-medium">{formatCurrency(value)}</span>
+                  ),
+                },
+                {
+                  key: 'paid_amount_cents',
+                  label: 'Valor Pago',
+                  showOnMobile: false,
+                  className: 'text-right',
+                  render: (value) => formatCurrency(value || 0),
+                },
+                {
+                  key: 'remaining_amount',
+                  label: 'Valor Restante',
+                  showOnMobile: false,
+                  className: 'text-right',
+                  render: (_, invoice) => 
+                    formatCurrency((invoice.total_amount_cents || 0) - (invoice.paid_amount_cents || 0)),
+                },
+                {
+                  key: 'payment_status',
+                  label: 'Status',
+                  showOnMobile: true,
+                  render: (value) => (
+                    <Badge variant={getStatusVariant(value || 'Pendente')}>
+                      {value || 'Pendente'}
+                    </Badge>
+                  ),
+                },
+              ]}
+              data={invoices}
+              loading={loading}
+              emptyMessage={
+                <>
+                  <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                  {filters.search
+                    ? 'Nenhuma nota fiscal encontrada com os filtros aplicados.'
+                    : 'Nenhuma nota fiscal cadastrada ainda.'}
+                </>
+              }
+              actions={[
+                {
+                  label: 'Visualizar',
+                  icon: Eye,
+                  onClick: (invoice) => handleView(invoice),
+                },
+                {
+                  label: 'Editar',
+                  icon: Edit,
+                  onClick: (invoice) => handleEdit(invoice),
+                },
+                {
+                  label: 'Adicionar Pagamento',
+                  icon: Plus,
+                  onClick: (invoice) => handleAddPayment(invoice),
+                },
+                {
+                  label: 'Ver Pagamentos',
+                  icon: Receipt,
+                  onClick: (invoice) => handleViewPayments(invoice),
+                },
+                {
+                  label: 'Excluir',
+                  icon: Trash2,
+                  onClick: (invoice) => handleDelete(invoice.id),
+                  variant: 'destructive',
+                },
+              ]}
+            />
 
                 {/* Paginação */}
                 {pagination.total_pages > 1 && (

@@ -111,12 +111,12 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **10.7** Implementar lazy loading de componentes
 
 ### Fase 11: Responsividade e Acessibilidade
-- [ ] **11.1** Otimizar layout para mobile
-- [ ] **11.2** Implementar navegação mobile (hambúrguer menu)
-- [ ] **11.3** Adicionar suporte a teclado completo
-- [ ] **11.4** Implementar ARIA labels e roles
-- [ ] **11.5** Testar com screen readers
-- [ ] **11.6** Melhorar contraste e tipografia
+- [x] **11.1** Otimizar layout para mobile
+- [x] **11.2** Implementar navegação mobile (hambúrguer menu)
+- [x] **11.3** Adicionar suporte a teclado completo
+- [x] **11.4** Implementar ARIA labels e roles
+- [x] **11.5** Testar com screen readers
+- [x] **11.6** Melhorar contraste e tipografia
 
 ### Fase 12: Testes e Qualidade
 - [ ] **12.1** Configurar Jest e Testing Library
@@ -213,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 15/08/2025  
-> **Progresso atual:** 61/76 etapas concluídas (80,3%)
+> **Progresso atual:** 67/76 etapas concluídas (88,2%)

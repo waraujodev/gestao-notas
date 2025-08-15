@@ -7,14 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useConfirmDialog } from '@/components/ui/confirm-dialog'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { ResponsiveTable } from '@/components/ui/responsive-table'
 import {
   Card,
   CardContent,
@@ -22,7 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { TableSkeleton } from '@/components/loading/TableSkeleton'
 import { useSuppliers } from '@/hooks/useSuppliers'
 import { SupplierFilters } from '@/types/supplier'
 import { formatDate } from '@/lib/utils'
@@ -149,80 +141,72 @@ export function SuppliersTable() {
             />
           </div>
 
-          {/* Tabela */}
-          {loading ? (
-            <TableSkeleton rows={5} columns={6} />
-          ) : (
-            <>
-              <div className="rounded-md border">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Nome</TableHead>
-                      <TableHead>Documento</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Telefone</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Criado em</TableHead>
-                      <TableHead className="text-right">Ações</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {suppliers.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={7} className="text-center py-8">
-                          <div className="text-muted-foreground">
-                            {filters.search ? 
-                              'Nenhum fornecedor encontrado com os filtros aplicados.' :
-                              'Nenhum fornecedor cadastrado ainda.'
-                            }
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      suppliers.map((supplier) => (
-                        <TableRow key={supplier.id}>
-                          <TableCell className="font-medium">
-                            {supplier.name}
-                          </TableCell>
-                          <TableCell>
-                            {formatDocument(supplier.document)}
-                          </TableCell>
-                          <TableCell>{supplier.email || '-'}</TableCell>
-                          <TableCell>{supplier.phone || '-'}</TableCell>
-                          <TableCell>
-                            <Badge variant={supplier.status ? 'default' : 'secondary'}>
-                              {supplier.status ? 'Ativo' : 'Inativo'}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            {formatDate(supplier.created_at)}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex items-center justify-end space-x-2">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handleEdit(supplier.id)}
-                              >
-                                <Edit className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handleDelete(supplier.id)}
-                                disabled={!supplier.status}
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    )}
-                  </TableBody>
-                </Table>
-              </div>
+          {/* Tabela Responsiva */}
+          <ResponsiveTable
+            columns={[
+              {
+                key: 'name',
+                label: 'Nome',
+                isPrimary: true,
+                showOnMobile: false,
+              },
+              {
+                key: 'document',
+                label: 'Documento',
+                showOnMobile: true,
+                render: (value) => formatDocument(value),
+              },
+              {
+                key: 'email',
+                label: 'Email',
+                showOnMobile: false,
+                render: (value) => value || '-',
+              },
+              {
+                key: 'phone',
+                label: 'Telefone',
+                showOnMobile: false,
+                render: (value) => value || '-',
+              },
+              {
+                key: 'status',
+                label: 'Status',
+                showOnMobile: true,
+                render: (value) => (
+                  <Badge variant={value ? 'default' : 'secondary'}>
+                    {value ? 'Ativo' : 'Inativo'}
+                  </Badge>
+                ),
+              },
+              {
+                key: 'created_at',
+                label: 'Criado em',
+                showOnMobile: false,
+                render: (value) => formatDate(value),
+              },
+            ]}
+            data={suppliers}
+            loading={loading}
+            emptyMessage={
+              filters.search
+                ? 'Nenhum fornecedor encontrado com os filtros aplicados.'
+                : 'Nenhum fornecedor cadastrado ainda.'
+            }
+            actions={[
+              {
+                label: 'Editar',
+                icon: Edit,
+                onClick: (supplier) => handleEdit(supplier.id),
+              },
+              {
+                label: 'Excluir',
+                icon: Trash2,
+                onClick: (supplier) => handleDelete(supplier.id),
+                variant: 'destructive',
+                disabled: (supplier) => !supplier.status,
+              },
+            ]}
+          />
 
               {/* Paginação */}
               {pagination.totalPages > 1 && (
