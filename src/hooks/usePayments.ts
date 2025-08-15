@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useToast } from './useToast'
 import { createClient } from '@/lib/supabase/client'
 import type { 
@@ -36,6 +36,8 @@ export function usePayments(options: UsePaymentsOptions = {}) {
   })
 
   const toast = useToast()
+  const lastFiltersRef = useRef<string>('')
+  const isInitialMount = useRef(true)
 
   const fetchPayments = useCallback(async () => {
     const supabase = createClient()
@@ -193,12 +195,21 @@ export function usePayments(options: UsePaymentsOptions = {}) {
     }
   }
 
-  // Auto fetch on mount and when dependencies change
+  // Auto fetch on mount and when dependencies change (usando ref para evitar loops)
   useEffect(() => {
-    if (auto_fetch) {
+    if (!auto_fetch) return
+
+    const currentFiltersString = JSON.stringify({ page, per_page, filters })
+    
+    // Só fazer fetch se:
+    // 1. É o primeiro mount OU
+    // 2. Os filtros realmente mudaram
+    if (isInitialMount.current || currentFiltersString !== lastFiltersRef.current) {
+      lastFiltersRef.current = currentFiltersString
+      isInitialMount.current = false
       fetchPayments()
     }
-  }, [fetchPayments, auto_fetch])
+  }, [auto_fetch, page, per_page, filters, fetchPayments])
 
   // Mostrar toast de erro quando houver erro
   useEffect(() => {

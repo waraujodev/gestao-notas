@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { PaymentMethod, PaymentMethodsResponse, PaymentMethodFilters, CreatePaymentMethodData, UpdatePaymentMethodData } from '@/types/payment-method'
 import { useToast } from './useToast'
 
@@ -21,8 +21,10 @@ export function usePaymentMethods(options: UsePaymentMethodsOptions = {}) {
   })
 
   const toast = useToast()
+  const lastFiltersRef = useRef<string>('')
+  const isInitialMount = useRef(true)
 
-  const fetchPaymentMethods = async (currentFilters: PaymentMethodFilters = {}) => {
+  const fetchPaymentMethods = useCallback(async (currentFilters: PaymentMethodFilters = {}) => {
     try {
       setLoading(true)
       setError(null)
@@ -56,7 +58,7 @@ export function usePaymentMethods(options: UsePaymentMethodsOptions = {}) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
   const createPaymentMethod = async (data: CreatePaymentMethodData): Promise<boolean> => {
     try {
@@ -161,11 +163,21 @@ export function usePaymentMethods(options: UsePaymentMethodsOptions = {}) {
   }
 
   // Carregar formas de pagamento quando filters mudam
+  // Carregar payment methods quando filters mudam (usando ref para evitar loops)
   useEffect(() => {
-    if (auto_fetch) {
+    if (!auto_fetch) return
+
+    const currentFiltersString = JSON.stringify(filters)
+    
+    // Só fazer fetch se:
+    // 1. É o primeiro mount OU
+    // 2. Os filtros realmente mudaram
+    if (isInitialMount.current || currentFiltersString !== lastFiltersRef.current) {
+      lastFiltersRef.current = currentFiltersString
+      isInitialMount.current = false
       fetchPaymentMethods(filters)
     }
-  }, [JSON.stringify(filters), auto_fetch])
+  }, [auto_fetch, filters, fetchPaymentMethods])
 
   return {
     paymentMethods,
