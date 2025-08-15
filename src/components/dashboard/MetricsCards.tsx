@@ -28,12 +28,12 @@ export function MetricsCards({ metrics, loading = false }: MetricsCardsProps) {
         {[...Array(8)].map((_, i) => (
           <Card key={i}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <div className="h-4 bg-gray-200 rounded animate-pulse w-24"></div>
-              <div className="h-4 w-4 bg-gray-200 rounded animate-pulse"></div>
+              <div className="h-4 bg-muted rounded animate-pulse w-24"></div>
+              <div className="h-4 w-4 bg-muted rounded animate-pulse"></div>
             </CardHeader>
             <CardContent>
-              <div className="h-8 bg-gray-200 rounded animate-pulse mb-1"></div>
-              <div className="h-3 bg-gray-100 rounded animate-pulse w-16"></div>
+              <div className="h-8 bg-muted rounded animate-pulse mb-1"></div>
+              <div className="h-3 bg-muted/60 rounded animate-pulse w-16"></div>
             </CardContent>
           </Card>
         ))}
@@ -92,14 +92,14 @@ export function MetricsCards({ metrics, loading = false }: MetricsCardsProps) {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Valor Pago</CardTitle>
-          <CheckCircle className="h-4 w-4 text-green-600" />
+          <CheckCircle className="h-4 w-4 text-emerald-600" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-green-600">
+          <div className="text-2xl font-bold text-emerald-600">
             {formatCurrency(metrics.paid_amount_cents)}
           </div>
           <div className="flex items-center text-xs text-muted-foreground">
-            <TrendingUp className="w-3 h-3 mr-1 text-green-600" />
+            <TrendingUp className="w-3 h-3 mr-1 text-emerald-600" />
             {metrics.paid_invoices} nota{metrics.paid_invoices !== 1 ? 's' : ''}
           </div>
         </CardContent>
@@ -111,21 +111,21 @@ export function MetricsCards({ metrics, loading = false }: MetricsCardsProps) {
           <CardTitle className="text-sm font-medium">Valor em Aberto</CardTitle>
           <AlertTriangle className={cn(
             "h-4 w-4",
-            metrics.overdue_amount_cents > 0 ? "text-red-600" : "text-orange-600"
+            metrics.overdue_amount_cents > 0 ? "text-destructive" : "text-amber-600"
           )} />
         </CardHeader>
         <CardContent>
           <div className={cn(
             "text-2xl font-bold",
-            metrics.overdue_amount_cents > 0 ? "text-red-600" : "text-orange-600"
+            metrics.overdue_amount_cents > 0 ? "text-destructive" : "text-amber-600"
           )}>
             {formatCurrency(totalPendingAndOverdue)}
           </div>
           <div className="flex items-center text-xs text-muted-foreground">
             {metrics.overdue_amount_cents > 0 ? (
-              <TrendingDown className="w-3 h-3 mr-1 text-red-600" />
+              <TrendingDown className="w-3 h-3 mr-1 text-destructive" />
             ) : (
-              <Clock className="w-3 h-3 mr-1 text-orange-600" />
+              <Clock className="w-3 h-3 mr-1 text-amber-600" />
             )}
             {metrics.overdue_invoices > 0 && `${metrics.overdue_invoices} atrasada${metrics.overdue_invoices !== 1 ? 's' : ''}`}
             {metrics.overdue_invoices > 0 && metrics.pending_invoices > 0 && ' • '}
@@ -136,16 +136,16 @@ export function MetricsCards({ metrics, loading = false }: MetricsCardsProps) {
 
       {/* Valor Atrasado (se houver) */}
       {metrics.overdue_amount_cents > 0 && (
-        <Card className="border-red-200">
+        <Card className="border-destructive/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-red-700">Valor Atrasado</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-red-600" />
+            <CardTitle className="text-sm font-medium text-destructive">Valor Atrasado</CardTitle>
+            <AlertTriangle className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">
+            <div className="text-2xl font-bold text-destructive">
               {formatCurrency(metrics.overdue_amount_cents)}
             </div>
-            <p className="text-xs text-red-600">
+            <p className="text-xs text-destructive">
               {metrics.overdue_invoices} nota{metrics.overdue_invoices !== 1 ? 's' : ''} vencida{metrics.overdue_invoices !== 1 ? 's' : ''}
             </p>
           </CardContent>
@@ -198,15 +198,15 @@ export function MetricsCards({ metrics, loading = false }: MetricsCardsProps) {
           <CardTitle className="text-sm font-medium">Taxa de Pagamento</CardTitle>
           <CheckCircle className={cn(
             "h-4 w-4",
-            paymentRate >= 80 ? "text-green-600" :
-            paymentRate >= 60 ? "text-orange-600" : "text-red-600"
+            paymentRate >= 80 ? "text-emerald-600" :
+            paymentRate >= 60 ? "text-amber-600" : "text-destructive"
           )} />
         </CardHeader>
         <CardContent>
           <div className={cn(
             "text-2xl font-bold",
-            paymentRate >= 80 ? "text-green-600" :
-            paymentRate >= 60 ? "text-orange-600" : "text-red-600"
+            paymentRate >= 80 ? "text-emerald-600" :
+            paymentRate >= 60 ? "text-amber-600" : "text-destructive"
           )}>
             {paymentRate.toFixed(1)}%
           </div>

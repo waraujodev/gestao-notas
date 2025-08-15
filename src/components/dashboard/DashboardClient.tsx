@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { MetricsCards } from './MetricsCards'
 import { UpcomingInvoices } from './UpcomingInvoices'
+import { InvoiceStatusChart } from './InvoiceStatusChart'
+import { PerformanceIndicators } from './PerformanceIndicators'
 import { DashboardFilters } from './DashboardFilters'
 import { PaymentDialog } from '@/components/payments/PaymentDialog'
 import { useDashboard } from '@/hooks/useDashboard'
@@ -63,7 +65,7 @@ export function DashboardClient() {
       {/* Métricas Principais */}
       <MetricsCards metrics={metrics} loading={loading} />
 
-      {/* Próximas a Vencer */}
+      {/* Próximas a Vencer e Gráfico de Status */}
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <UpcomingInvoices
@@ -76,6 +78,11 @@ export function DashboardClient() {
 
         {/* Sidebar com informações adicionais */}
         <div className="space-y-6">
+          {/* Gráfico de Status */}
+          <InvoiceStatusChart metrics={metrics} loading={loading} />
+          
+          {/* Indicadores de Performance */}
+          <PerformanceIndicators metrics={metrics} loading={loading} />
           {/* Card de resumo rápido */}
           {metrics && (
             <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">

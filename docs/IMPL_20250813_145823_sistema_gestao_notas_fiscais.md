@@ -94,12 +94,12 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **8.7** Criar histórico de pagamentos
 
 ### Fase 9: Dashboard e Métricas
-- [ ] **9.1** Criar cards de métricas principais
-- [ ] **9.2** Implementar lista de próximas notas a vencer
-- [ ] **9.3** Adicionar gráfico de status das notas
-- [ ] **9.4** Criar indicadores de performance
-- [ ] **9.5** Implementar filtros por período no dashboard
-- [ ] **9.6** Adicionar métricas de valor total pago/pendente
+- [x] **9.1** Criar cards de métricas principais
+- [x] **9.2** Implementar lista de próximas notas a vencer
+- [x] **9.3** Adicionar gráfico de status das notas
+- [x] **9.4** Criar indicadores de performance
+- [x] **9.5** Implementar filtros por período no dashboard
+- [x] **9.6** Adicionar métricas de valor total pago/pendente
 
 ### Fase 10: Melhorias de UX e Performance
 - [ ] **10.1** Implementar busca com debounce
@@ -213,4 +213,4 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 14/08/2025  
-> **Progresso atual:** 48/76 etapas concluídas (63,2%)
+> **Progresso atual:** 54/76 etapas concluídas (71,1%)
