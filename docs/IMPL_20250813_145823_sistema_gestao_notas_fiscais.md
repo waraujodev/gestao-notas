@@ -119,10 +119,10 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **11.6** Melhorar contraste e tipografia
 
 ### Fase 12: Otimizações Arquiteturais (NOVO)
-- [ ] **12.1** Corrigir JSON.stringify em hooks (useInvoices, useSuppliers)
-- [ ] **12.2** Implementar React.memo em componentes de tabela
-- [ ] **12.3** Otimizar callbacks com useCallback
-- [ ] **12.4** Corrigir memory leak potencial no useAuth
+- [x] **12.1** Corrigir JSON.stringify em hooks (useInvoices, useSuppliers)
+- [x] **12.2** Implementar React.memo em componentes de tabela
+- [x] **12.3** Otimizar callbacks com useCallback
+- [x] **12.4** Corrigir memory leak potencial no useAuth
 - [ ] **12.5** Implementar Loading e Error Boundaries nas rotas
 - [ ] **12.6** Refatorar InvoicesTable - extrair hook customizado
 - [ ] **12.7** Criar hook useOptimizedFilters reutilizável
@@ -223,5 +223,5 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 15/08/2025  
-> **Progresso atual:** 67/84 etapas concluídas (79,8%)  
-> **Nova Fase 12:** Otimizações Arquiteturais adicionada antes dos testes
+> **Progresso atual:** 71/84 etapas concluídas (84,5%)  
+> **Fase 12:** Correções críticas de performance implementadas (12.1-12.4)

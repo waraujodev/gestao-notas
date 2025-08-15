@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Plus, Search, Filter, Edit, Trash2, Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -21,7 +21,7 @@ import { formatDate } from '@/lib/utils'
 import { SuppliersFilters } from './SuppliersFilters'
 import { SupplierForm } from './SupplierForm'
 
-export function SuppliersTable() {
+export const SuppliersTable = React.memo(function SuppliersTable() {
   const [filters, setFilters] = useState<SupplierFilters>({
     page: 1,
     limit: 10,
@@ -45,43 +45,43 @@ export function SuppliersTable() {
     search: debouncedSearchTerm || undefined,
   })
 
-  const handleSearch = (value: string) => {
+  const handleSearch = useCallback((value: string) => {
     setSearchTerm(value)
     // Reset página quando buscar
     setFilters(prev => ({
       ...prev,
       page: 1,
     }))
-  }
+  }, [])
 
-  const handleFilterChange = (newFilters: Partial<SupplierFilters>) => {
+  const handleFilterChange = useCallback((newFilters: Partial<SupplierFilters>) => {
     setFilters(prev => ({
       ...prev,
       ...newFilters,
       page: 1,
     }))
-  }
+  }, [])
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     setFilters(prev => ({ ...prev, page }))
-  }
+  }, [])
 
-  const handleEdit = (supplierId: string) => {
+  const handleEdit = useCallback((supplierId: string) => {
     setEditingSupplier(supplierId)
     setShowForm(true)
-  }
+  }, [])
 
-  const handleDelete = async (supplierId: string) => {
+  const handleDelete = useCallback(async (supplierId: string) => {
     confirmDelete(async () => {
       await deleteSupplier(supplierId)
     })
-  }
+  }, [confirmDelete, deleteSupplier])
 
-  const handleFormClose = () => {
+  const handleFormClose = useCallback(() => {
     setShowForm(false)
     setEditingSupplier(null)
     refetch()
-  }
+  }, [refetch])
 
   const formatDocument = (document?: string) => {
     if (!document) return '-'
@@ -246,4 +246,4 @@ export function SuppliersTable() {
       <ConfirmDialog />
     </Card>
   )
-}
+})

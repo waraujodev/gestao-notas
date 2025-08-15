@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Supplier, SuppliersResponse, SupplierFilters, CreateSupplierData, UpdateSupplierData } from '@/types/supplier'
 import { useToast } from './useToast'
 
@@ -22,6 +22,19 @@ export function useSuppliers(options: UseSuppliersOptions = {}) {
   })
 
   const toast = useToast()
+
+  // Memoizar dependências de filtros para evitar re-renders desnecessários
+  const filterDeps = useMemo(() => [
+    filters.search,
+    filters.status,
+    filters.page,
+    filters.limit
+  ], [
+    filters.search,
+    filters.status,
+    filters.page,
+    filters.limit
+  ])
 
   const fetchSuppliers = async (currentFilters: SupplierFilters = {}) => {
     try {
@@ -167,7 +180,7 @@ export function useSuppliers(options: UseSuppliersOptions = {}) {
     if (auto_fetch) {
       fetchSuppliers(filters)
     }
-  }, [JSON.stringify(filters), auto_fetch])
+  }, [filterDeps, auto_fetch, fetchSuppliers])
 
   return {
     suppliers,

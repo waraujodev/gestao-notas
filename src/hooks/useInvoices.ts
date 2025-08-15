@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useToast } from './useToast'
 import { createClient } from '@/lib/supabase/client'
 import type { 
@@ -36,6 +36,21 @@ export function useInvoices(options: UseInvoicesOptions = {}) {
   })
 
   const toast = useToast()
+
+  // Memoizar dependências de filtros para evitar re-renders desnecessários
+  const filterDeps = useMemo(() => [
+    filters.search,
+    filters.supplier_id, 
+    filters.status,
+    filters.due_date_from,
+    filters.due_date_to
+  ], [
+    filters.search,
+    filters.supplier_id,
+    filters.status, 
+    filters.due_date_from,
+    filters.due_date_to
+  ])
 
   const fetchInvoices = useCallback(async () => {
     const supabase = createClient()
@@ -79,7 +94,7 @@ export function useInvoices(options: UseInvoicesOptions = {}) {
     } finally {
       setLoading(false)
     }
-  }, [page, per_page, JSON.stringify(filters)])
+  }, [page, per_page, filterDeps])
 
   const createInvoice = async (data: CreateInvoiceData) => {
     setLoading(true)

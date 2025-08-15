@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { User, Session, AuthError } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -32,6 +32,14 @@ export function useAuth(): AuthState & AuthActions {
   const router = useRouter()
   const supabase = createClient()
   const toast = useToast()
+  const isMountedRef = useRef(true)
+
+  useEffect(() => {
+    // Cleanup function para indicar que componente foi desmontado
+    return () => {
+      isMountedRef.current = false
+    }
+  }, [])
 
   useEffect(() => {
     // Obter sessão inicial
@@ -73,7 +81,8 @@ export function useAuth(): AuthState & AuthActions {
         }))
 
         // Refresh da página para atualizar server components
-        if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+        // Verificar se componente ainda está montado antes de chamar router.refresh()
+        if (isMountedRef.current && (event === 'SIGNED_IN' || event === 'SIGNED_OUT')) {
           router.refresh()
         }
       }

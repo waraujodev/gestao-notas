@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import { Plus, Search, Filter, Edit, Trash2, Eye, MoreHorizontal, FileText, Receipt } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -39,7 +39,7 @@ function getStatusVariant(status: PaymentStatus): 'default' | 'secondary' | 'des
   }
 }
 
-export function InvoicesTable() {
+export const InvoicesTable = React.memo(function InvoicesTable() {
   const [filters, setFilters] = useState<InvoiceFilters>({})
   const [page, setPage] = useState(1)
   const [perPage] = useState(10)
@@ -83,79 +83,79 @@ export function InvoicesTable() {
     filters: memoizedFilters
   })
 
-  const handleSearch = (value: string) => {
+  const handleSearch = useCallback((value: string) => {
     setSearchTerm(value)
     setPage(1)
-  }
+  }, [])
 
-  const handleFiltersChange = (newFilters: InvoiceFilters) => {
+  const handleFiltersChange = useCallback((newFilters: InvoiceFilters) => {
     setFilters(newFilters)
     setPage(1)
-  }
+  }, [])
 
-  const handleClearFilters = () => {
+  const handleClearFilters = useCallback(() => {
     setFilters({})
     setSearchTerm('')
     setPage(1)
-  }
+  }, [])
 
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = useCallback((newPage: number) => {
     setPage(newPage)
-  }
+  }, [])
 
-  const handleEdit = (invoice: InvoiceSummary) => {
+  const handleEdit = useCallback((invoice: InvoiceSummary) => {
     setEditingInvoice(invoice)
     setDialogMode('edit')
     setDialogOpen(true)
-  }
+  }, [])
 
-  const handleView = (invoice: InvoiceSummary) => {
+  const handleView = useCallback((invoice: InvoiceSummary) => {
     // TODO: Implement view functionality in next phase
     console.log('View invoice:', invoice)
-  }
+  }, [])
 
-  const handleAddPayment = (invoice: InvoiceSummary) => {
+  const handleAddPayment = useCallback((invoice: InvoiceSummary) => {
     setSelectedInvoiceForPayment(invoice)
     setPaymentDialogOpen(true)
-  }
+  }, [])
 
-  const handleViewPayments = (invoice: InvoiceSummary) => {
+  const handleViewPayments = useCallback((invoice: InvoiceSummary) => {
     setSelectedInvoiceForPayments(invoice)
     setViewingPayments(true)
-  }
+  }, [])
 
-  const handleDelete = async (invoiceId: string) => {
+  const handleDelete = useCallback(async (invoiceId: string) => {
     confirmDelete(async () => {
       await deleteInvoice(invoiceId)
     })
-  }
+  }, [confirmDelete, deleteInvoice])
 
-  const handleNewInvoice = () => {
+  const handleNewInvoice = useCallback(() => {
     setEditingInvoice(null)
     setDialogMode('create')
     setDialogOpen(true)
-  }
+  }, [])
 
-  const handleDialogClose = () => {
+  const handleDialogClose = useCallback(() => {
     setDialogOpen(false)
     setEditingInvoice(null)
     refetch()
-  }
+  }, [refetch])
 
-  const handlePaymentDialogClose = () => {
+  const handlePaymentDialogClose = useCallback(() => {
     setPaymentDialogOpen(false)
     setSelectedInvoiceForPayment(null)
-  }
+  }, [])
 
-  const handlePaymentSuccess = () => {
+  const handlePaymentSuccess = useCallback(() => {
     refetch()
-  }
+  }, [refetch])
 
-  const handleClosePaymentsView = () => {
+  const handleClosePaymentsView = useCallback(() => {
     setViewingPayments(false)
     setSelectedInvoiceForPayments(null)
     refetch()
-  }
+  }, [refetch])
 
   // Se estiver visualizando pagamentos, mostrar apenas essa tela
   if (viewingPayments && selectedInvoiceForPayments) {
@@ -299,12 +299,9 @@ export function InvoicesTable() {
               data={invoices}
               loading={loading}
               emptyMessage={
-                <>
-                  <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                  {filters.search
-                    ? 'Nenhuma nota fiscal encontrada com os filtros aplicados.'
-                    : 'Nenhuma nota fiscal cadastrada ainda.'}
-                </>
+                filters.search
+                  ? 'Nenhuma nota fiscal encontrada com os filtros aplicados.'
+                  : 'Nenhuma nota fiscal cadastrada ainda.'
               }
               actions={[
                 {
@@ -395,4 +392,4 @@ export function InvoicesTable() {
       <ConfirmDialog />
     </>
   )
-}
+})
