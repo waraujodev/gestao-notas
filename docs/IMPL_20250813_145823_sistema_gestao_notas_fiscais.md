@@ -130,7 +130,7 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 
 ### Fase 13: Testes e Qualidade
 - [x] **13.1** Configurar Jest e Testing Library
-- [ ] **13.2** Criar testes unitários para componentes
+- [x] **13.2** Criar testes unitários para componentes
 - [ ] **13.3** Implementar testes de integração
 - [ ] **13.4** Adicionar testes E2E com Playwright
 - [ ] **13.5** Configurar coverage reports
@@ -223,5 +223,5 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 15/08/2025  
-> **Progresso atual:** 75/84 etapas concluídas (89,3%)  
-> **Fase 12:** Otimizações arquiteturais CONCLUÍDA ✅ - Performance otimizada
+> **Progresso atual:** 76/84 etapas concluídas (90,5%)  
+> **Fase 13.2:** Testes unitários CONCLUÍDA ✅ - Suite de testes configurada
