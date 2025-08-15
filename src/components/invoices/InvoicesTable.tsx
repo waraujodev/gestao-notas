@@ -1,12 +1,10 @@
 'use client'
 
-import React, { useState, useMemo, useCallback } from 'react'
-import { Plus, Search, Filter, Edit, Trash2, Eye, MoreHorizontal, FileText, Receipt } from 'lucide-react'
+import React from 'react'
+import { Plus, Search, Edit, Trash2, Eye, Receipt } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { useDebounce } from '@/hooks/useDebounce'
-import { useConfirmDialog } from '@/components/ui/confirm-dialog'
 import { ResponsiveTable } from '@/components/ui/responsive-table'
 import {
   Card,
@@ -15,14 +13,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { useInvoices } from '@/hooks/useInvoices'
-import { InvoiceFilters, InvoiceSummary, PaymentStatus } from '@/types/invoice'
+import { PaymentStatus } from '@/types/invoice'
 import { formatCurrency } from '@/lib/utils/currency'
 import { formatDate, isOverdue } from '@/lib/utils/date'
 import { InvoicesFilters } from './InvoicesFilters'
 import { InvoiceDialog } from './InvoiceDialog'
 import { InvoicePayments } from './InvoicePayments'
 import { PaymentDialog } from '@/components/payments/PaymentDialog'
+import { useInvoiceTable } from '@/hooks/useInvoiceTable'
 
 function getStatusVariant(status: PaymentStatus): 'default' | 'secondary' | 'destructive' | 'outline' {
   switch (status) {
@@ -40,122 +38,47 @@ function getStatusVariant(status: PaymentStatus): 'default' | 'secondary' | 'des
 }
 
 export const InvoicesTable = React.memo(function InvoicesTable() {
-  const [filters, setFilters] = useState<InvoiceFilters>({})
-  const [page, setPage] = useState(1)
-  const [perPage] = useState(10)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [editingInvoice, setEditingInvoice] = useState<InvoiceSummary | null>(null)
-  const [dialogMode, setDialogMode] = useState<'create' | 'edit'>('create')
-  // Dialog de confirmação para exclusão
-  const { confirm: confirmDelete, ConfirmDialog } = useConfirmDialog({
-    title: 'Excluir Nota Fiscal',
-    description: 'Tem certeza que deseja excluir esta nota fiscal? Esta ação não pode ser desfeita e removerá também todos os pagamentos relacionados.',
-    variant: 'destructive'
-  })
-  
-  // Payment dialog state
-  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false)
-  const [selectedInvoiceForPayment, setSelectedInvoiceForPayment] = useState<InvoiceSummary | null>(null)
-  
-  // Payments view state
-  const [viewingPayments, setViewingPayments] = useState(false)
-  const [selectedInvoiceForPayments, setSelectedInvoiceForPayments] = useState<InvoiceSummary | null>(null)
-
-  // Debounce do termo de busca para evitar muitas requisições
-  const debouncedSearchTerm = useDebounce(searchTerm, 500)
-
-  // Memoizar filtros para evitar recriações desnecessárias
-  const memoizedFilters = useMemo(() => ({
-    ...filters,
-    search: debouncedSearchTerm || undefined,
-  }), [filters, debouncedSearchTerm])
-
-  const { 
-    invoices, 
-    loading, 
-    pagination,
-    deleteInvoice,
-    refetch
-  } = useInvoices({
+  // Usar o hook customizado que centraliza toda a lógica
+  const {
+    // Estados
+    filters,
     page,
-    per_page: perPage,
-    filters: memoizedFilters
-  })
-
-  const handleSearch = useCallback((value: string) => {
-    setSearchTerm(value)
-    setPage(1)
-  }, [])
-
-  const handleFiltersChange = useCallback((newFilters: InvoiceFilters) => {
-    setFilters(newFilters)
-    setPage(1)
-  }, [])
-
-  const handleClearFilters = useCallback(() => {
-    setFilters({})
-    setSearchTerm('')
-    setPage(1)
-  }, [])
-
-  const handlePageChange = useCallback((newPage: number) => {
-    setPage(newPage)
-  }, [])
-
-  const handleEdit = useCallback((invoice: InvoiceSummary) => {
-    setEditingInvoice(invoice)
-    setDialogMode('edit')
-    setDialogOpen(true)
-  }, [])
-
-  const handleView = useCallback((invoice: InvoiceSummary) => {
-    // TODO: Implement view functionality in next phase
-    console.log('View invoice:', invoice)
-  }, [])
-
-  const handleAddPayment = useCallback((invoice: InvoiceSummary) => {
-    setSelectedInvoiceForPayment(invoice)
-    setPaymentDialogOpen(true)
-  }, [])
-
-  const handleViewPayments = useCallback((invoice: InvoiceSummary) => {
-    setSelectedInvoiceForPayments(invoice)
-    setViewingPayments(true)
-  }, [])
-
-  const handleDelete = useCallback(async (invoiceId: string) => {
-    confirmDelete(async () => {
-      await deleteInvoice(invoiceId)
-    })
-  }, [confirmDelete, deleteInvoice])
-
-  const handleNewInvoice = useCallback(() => {
-    setEditingInvoice(null)
-    setDialogMode('create')
-    setDialogOpen(true)
-  }, [])
-
-  const handleDialogClose = useCallback(() => {
-    setDialogOpen(false)
-    setEditingInvoice(null)
-    refetch()
-  }, [refetch])
-
-  const handlePaymentDialogClose = useCallback(() => {
-    setPaymentDialogOpen(false)
-    setSelectedInvoiceForPayment(null)
-  }, [])
-
-  const handlePaymentSuccess = useCallback(() => {
-    refetch()
-  }, [refetch])
-
-  const handleClosePaymentsView = useCallback(() => {
-    setViewingPayments(false)
-    setSelectedInvoiceForPayments(null)
-    refetch()
-  }, [refetch])
+    perPage,
+    searchTerm,
+    
+    // Estados de UI
+    dialogOpen,
+    editingInvoice,
+    dialogMode,
+    paymentDialogOpen,
+    selectedInvoiceForPayment,
+    viewingPayments,
+    selectedInvoiceForPayments,
+    
+    // Dados
+    invoices,
+    loading,
+    pagination,
+    
+    // Handlers
+    handleSearch,
+    handleFiltersChange,
+    handleClearFilters,
+    handlePageChange,
+    handleEdit,
+    handleView,
+    handleAddPayment,
+    handleViewPayments,
+    handleDelete,
+    handleNewInvoice,
+    handleDialogClose,
+    handlePaymentDialogClose,
+    handlePaymentSuccess,
+    handleClosePaymentsView,
+    
+    // Componentes
+    ConfirmDialog
+  } = useInvoiceTable()
 
   // Se estiver visualizando pagamentos, mostrar apenas essa tela
   if (viewingPayments && selectedInvoiceForPayments) {

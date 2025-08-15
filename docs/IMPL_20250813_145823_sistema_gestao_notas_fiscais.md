@@ -124,9 +124,9 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 - [x] **12.3** Otimizar callbacks com useCallback
 - [x] **12.4** Corrigir memory leak potencial no useAuth
 - [x] **12.5** Implementar Loading e Error Boundaries nas rotas
-- [ ] **12.6** Refatorar InvoicesTable - extrair hook customizado
-- [ ] **12.7** Criar hook useOptimizedFilters reutilizável
-- [ ] **12.8** Testar performance antes/depois das otimizações
+- [x] **12.6** Refatorar InvoicesTable - extrair hook customizado
+- [x] **12.7** Criar hook useOptimizedFilters reutilizável
+- [x] **12.8** Testar performance antes/depois das otimizações
 
 ### Fase 13: Testes e Qualidade
 - [x] **13.1** Configurar Jest e Testing Library
@@ -223,5 +223,5 @@ Etapa 4.1 concluída conforme roadmap.
 ---
 
 > **Última atualização:** 15/08/2025  
-> **Progresso atual:** 72/84 etapas concluídas (85,7%)  
-> **Fase 12:** Otimizações arquiteturais em progresso (12.1-12.5 concluídas)
+> **Progresso atual:** 75/84 etapas concluídas (89,3%)  
+> **Fase 12:** Otimizações arquiteturais CONCLUÍDA ✅ - Performance otimizada
