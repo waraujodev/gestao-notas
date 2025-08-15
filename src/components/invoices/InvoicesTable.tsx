@@ -333,39 +333,37 @@ export function InvoicesTable() {
               ]}
             />
 
-                {/* Paginação */}
-                {pagination.total_pages > 1 && (
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm text-muted-foreground">
-                      Mostrando {((page - 1) * perPage) + 1} a {Math.min(page * perPage, pagination.count)} de {pagination.count} resultados
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handlePageChange(Math.max(1, page - 1))}
-                        disabled={page === 1 || loading}
-                      >
-                        Anterior
-                      </Button>
-                      <div className="flex items-center gap-1 text-sm">
-                        <span>Página</span>
-                        <span className="font-medium">{page}</span>
-                        <span>de</span>
-                        <span className="font-medium">{pagination.total_pages}</span>
-                      </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handlePageChange(Math.min(pagination.total_pages, page + 1))}
-                        disabled={page === pagination.total_pages || loading}
-                      >
-                        Próxima
-                      </Button>
-                    </div>
+            {/* Paginação */}
+            {pagination.total_pages > 1 && (
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-muted-foreground">
+                  Mostrando {((page - 1) * perPage) + 1} a {Math.min(page * perPage, pagination.count)} de {pagination.count} resultados
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(Math.max(1, page - 1))}
+                    disabled={page === 1 || loading}
+                  >
+                    Anterior
+                  </Button>
+                  <div className="flex items-center gap-1 text-sm">
+                    <span>Página</span>
+                    <span className="font-medium">{page}</span>
+                    <span>de</span>
+                    <span className="font-medium">{pagination.total_pages}</span>
                   </div>
-                )}
-              </>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(Math.min(pagination.total_pages, page + 1))}
+                    disabled={page === pagination.total_pages || loading}
+                  >
+                    Próxima
+                  </Button>
+                </div>
+              </div>
             )}
           </div>
         </CardContent>
