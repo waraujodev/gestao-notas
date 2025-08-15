@@ -150,9 +150,9 @@ Este projeto utiliza **APENAS ambiente de PRODUÇÃO** no Supabase:
 
 Ao concluir cada etapa:
 
-1. **Marque o checkbox** da etapa como concluída (`[x]`) neste arquivo
-2. **Atualize o progresso** no final do documento
-3. **Faça um commit** seguindo o padrão:
+1. **PRIMEIRO: Marque o checkbox** da etapa como concluída (`[x]`) neste arquivo
+2. **SEGUNDO: Atualize o progresso** no final do documento  
+3. **TERCEIRO: Faça um commit** seguindo o padrão (já com as marcações anteriores):
    ```
    feat: implementa [descrição da etapa] ✅
    
