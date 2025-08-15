@@ -79,7 +79,7 @@ export function useInvoices(options: UseInvoicesOptions = {}) {
     } finally {
       setLoading(false)
     }
-  }, [page, per_page, filters])
+  }, [page, per_page, JSON.stringify(filters)])
 
   const createInvoice = async (data: CreateInvoiceData) => {
     setLoading(true)
@@ -216,10 +216,6 @@ export function useInvoices(options: UseInvoicesOptions = {}) {
     updateInvoice,
     deleteInvoice,
     getInvoiceById,
-    refetch: fetchInvoices,
-    setFilters: (newFilters: InvoiceFilters) => {
-      // This will trigger a re-fetch via the effect
-      Object.assign(filters, newFilters)
-    }
+    refetch: fetchInvoices
   }
 }

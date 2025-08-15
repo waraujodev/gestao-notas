@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Plus, Search, Filter, Edit, Trash2, Eye, MoreHorizontal, FileText, Receipt } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -65,6 +65,12 @@ export function InvoicesTable() {
   // Debounce do termo de busca para evitar muitas requisições
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
+  // Memoizar filtros para evitar recriações desnecessárias
+  const memoizedFilters = useMemo(() => ({
+    ...filters,
+    search: debouncedSearchTerm || undefined,
+  }), [filters, debouncedSearchTerm])
+
   const { 
     invoices, 
     loading, 
@@ -74,10 +80,7 @@ export function InvoicesTable() {
   } = useInvoices({
     page,
     per_page: perPage,
-    filters: {
-      ...filters,
-      search: debouncedSearchTerm || undefined,
-    }
+    filters: memoizedFilters
   })
 
   const handleSearch = (value: string) => {
