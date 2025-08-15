@@ -73,7 +73,7 @@ export function InvoiceStatusChart({ metrics, loading = false }: InvoiceStatusCh
       amount_cents: metrics.paid_amount_cents,
       color: 'text-emerald-600',
       bgColor: 'bg-emerald-600',
-      variant: 'default'
+      variant: 'default' as const
     },
     {
       label: 'Pendentes',
@@ -81,7 +81,7 @@ export function InvoiceStatusChart({ metrics, loading = false }: InvoiceStatusCh
       amount_cents: metrics.pending_amount_cents,
       color: 'text-amber-600',
       bgColor: 'bg-amber-600',
-      variant: 'secondary'
+      variant: 'secondary' as const
     },
     {
       label: 'Atrasadas',
@@ -89,7 +89,7 @@ export function InvoiceStatusChart({ metrics, loading = false }: InvoiceStatusCh
       amount_cents: metrics.overdue_amount_cents,
       color: 'text-destructive',
       bgColor: 'bg-destructive',
-      variant: 'destructive'
+      variant: 'destructive' as const
     }
   ].filter(item => item.count > 0) // Só mostrar status que existem
 
@@ -106,7 +106,7 @@ export function InvoiceStatusChart({ metrics, loading = false }: InvoiceStatusCh
       <CardContent className="space-y-6">
         {/* Gráfico de barras simples */}
         <div className="space-y-3">
-          {statusData.map((status, index) => {
+          {statusData.map((status) => {
             const percentage = total > 0 ? (status.count / total) * 100 : 0
             
             return (

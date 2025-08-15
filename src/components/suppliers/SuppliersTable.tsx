@@ -5,6 +5,8 @@ import { Plus, Search, Filter, Edit, Trash2, Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { useDebounce } from '@/hooks/useDebounce'
+import { useConfirmDialog } from '@/components/ui/confirm-dialog'
 import {
   Table,
   TableBody,
@@ -36,13 +38,26 @@ export function SuppliersTable() {
   const [showForm, setShowForm] = useState(false)
   const [editingSupplier, setEditingSupplier] = useState<string | null>(null)
 
-  const { suppliers, loading, pagination, deleteSupplier, refetch } = useSuppliers(filters)
+  // Debounce do termo de busca para evitar muitas requisições
+  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+
+  // Dialog de confirmação para exclusão
+  const { confirm: confirmDelete, ConfirmDialog } = useConfirmDialog({
+    title: 'Excluir Fornecedor',
+    description: 'Tem certeza que deseja excluir este fornecedor? Esta ação não pode ser desfeita e pode afetar notas fiscais relacionadas.',
+    variant: 'destructive'
+  })
+
+  const { suppliers, loading, pagination, deleteSupplier, refetch } = useSuppliers({
+    ...filters,
+    search: debouncedSearchTerm || undefined,
+  })
 
   const handleSearch = (value: string) => {
     setSearchTerm(value)
+    // Reset página quando buscar
     setFilters(prev => ({
       ...prev,
-      search: value || undefined,
       page: 1,
     }))
   }
@@ -65,9 +80,9 @@ export function SuppliersTable() {
   }
 
   const handleDelete = async (supplierId: string) => {
-    if (confirm('Tem certeza que deseja desativar este fornecedor?')) {
+    confirmDelete(async () => {
       await deleteSupplier(supplierId)
-    }
+    })
   }
 
   const handleFormClose = () => {
@@ -176,7 +191,7 @@ export function SuppliersTable() {
                           <TableCell>{supplier.email || '-'}</TableCell>
                           <TableCell>{supplier.phone || '-'}</TableCell>
                           <TableCell>
-                            <Badge variant={supplier.status ? 'success' : 'secondary'}>
+                            <Badge variant={supplier.status ? 'default' : 'secondary'}>
                               {supplier.status ? 'Ativo' : 'Inativo'}
                             </Badge>
                           </TableCell>
@@ -244,6 +259,9 @@ export function SuppliersTable() {
           )}
         </div>
       </CardContent>
+      
+      {/* Dialog de confirmação */}
+      <ConfirmDialog />
     </Card>
   )
 }

@@ -5,6 +5,7 @@ import { Plus, Search, Filter, Edit, Trash2, Eye, MoreHorizontal, FileText, Rece
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { useDebounce } from '@/hooks/useDebounce'
 import {
   Table,
   TableBody,
@@ -80,6 +81,9 @@ export function InvoicesTable() {
   const [viewingPayments, setViewingPayments] = useState(false)
   const [selectedInvoiceForPayments, setSelectedInvoiceForPayments] = useState<InvoiceSummary | null>(null)
 
+  // Debounce do termo de busca para evitar muitas requisições
+  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+
   const { 
     invoices, 
     loading, 
@@ -89,15 +93,14 @@ export function InvoicesTable() {
   } = useInvoices({
     page,
     per_page: perPage,
-    filters
+    filters: {
+      ...filters,
+      search: debouncedSearchTerm || undefined,
+    }
   })
 
   const handleSearch = (value: string) => {
     setSearchTerm(value)
-    setFilters(prev => ({
-      ...prev,
-      search: value || undefined,
-    }))
     setPage(1)
   }
 
